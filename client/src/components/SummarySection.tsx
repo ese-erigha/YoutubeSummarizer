@@ -112,11 +112,11 @@ const SummarySection = ({
           <div className="flex-grow flex flex-col items-center justify-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mb-4"></div>
             <p className="text-primary font-medium mb-2">Generating summary with AI...</p>
-            <p className="text-sm text-gray-500 text-center max-w-md">
+            <p className="text-sm text-muted-foreground text-center max-w-md">
               Our AI model is analyzing the transcript to create a concise summary.
               This typically takes 5-10 seconds depending on the length of the transcript.
             </p>
-            <div className="mt-6 bg-blue-50 p-3 rounded-md text-xs text-blue-700 max-w-sm">
+            <div className="mt-6 bg-blue-950/10 border border-blue-950/20 p-3 rounded-md text-xs text-blue-400 max-w-sm">
               <p className="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
                   <circle cx="12" cy="12" r="10"/>
@@ -141,7 +141,7 @@ const SummarySection = ({
             <p className="text-center text-sm mt-2 max-w-md">
               {summaryError || "There was an error processing your request. Please try again."}
             </p>
-            <div className="mt-6 bg-red-50 p-4 rounded-md text-sm text-red-800 max-w-md">
+            <div className="mt-6 bg-red-950/10 border border-red-950/20 p-4 rounded-md text-sm text-red-500 max-w-md">
               <p className="font-medium mb-2">Troubleshooting tips:</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>Check your internet connection and try again</li>
@@ -167,23 +167,23 @@ const SummarySection = ({
 
         {/* Summary content */}
         {summary && (
-          <div className="flex-grow overflow-y-auto bg-gray-50 p-4 sm:p-6 rounded-md font-content shadow-inner">
+          <div className="flex-grow overflow-y-auto bg-muted/30 p-4 sm:p-6 rounded-md font-content shadow-inner border border-border">
             <div className="prose prose-blue max-w-none">
               <div dangerouslySetInnerHTML={{ 
                 __html: summary
                   .replace(/\n\n/g, '<br/><br/>')
                   .replace(/\n/g, '<br/>')
-                  .replace(/^(.*?)(?=<br\/>|$)/gm, '<p class="mb-4">$1</p>')
-                  .replace(/• (.*?)(?=<br\/>|$)/g, '<li>$1</li>')
-                  .replace(/<li>/g, '<ul class="list-disc pl-5 space-y-1 my-3"><li>')
+                  .replace(/^(.*?)(?=<br\/>|$)/gm, '<p class="mb-4 text-foreground">$1</p>')
+                  .replace(/• (.*?)(?=<br\/>|$)/g, '<li class="text-foreground">$1</li>')
+                  .replace(/<li class="text-foreground">/g, '<ul class="list-disc pl-5 space-y-1 my-3"><li class="text-foreground">')
                   .replace(/<\/li><br\/><br\/>/g, '</li></ul>')
                   .replace(/<\/li><br\/>/g, '</li></ul>')
-                  .replace(/<p class="mb-4"><\/p>/g, '')
+                  .replace(/<p class="mb-4 text-foreground"><\/p>/g, '')
                   .replace(/(?:<br\/>)+/g, '')
-                  .replace(/<p class="mb-4">(.*?)<\/p>/g, (match, content) => {
+                  .replace(/<p class="mb-4 text-foreground">(.*?)<\/p>/g, (match, content) => {
                     if (content.includes(':') && content.split(':')[0].length < 30) {
                       const [title, text] = content.split(':');
-                      return `<h3 class="text-lg font-semibold mt-4 mb-2 text-gray-800">${title}:</h3><p class="mb-3">${text}</p>`;
+                      return `<h3 class="text-lg font-semibold mt-4 mb-2 text-foreground">${title}:</h3><p class="mb-3 text-foreground">${text}</p>`;
                     }
                     return match;
                   })
