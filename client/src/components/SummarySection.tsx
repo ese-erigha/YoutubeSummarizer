@@ -64,7 +64,7 @@ const SummarySection = ({
               After extracting the transcript, click "Generate Summary" to create an AI-powered summary of the video.
             </p>
             
-            <div className="bg-amber-950/10 border border-amber-950/20 p-4 rounded-md text-sm text-amber-500 max-w-md">
+            <div className="bg-primary/10 border border-primary/20 p-4 rounded-md text-sm text-primary max-w-md">
               <p className="font-medium mb-2">What to expect:</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>A concise overview of the video content</li>
@@ -116,7 +116,7 @@ const SummarySection = ({
               Our AI model is analyzing the transcript to create a concise summary.
               This typically takes 5-10 seconds depending on the length of the transcript.
             </p>
-            <div className="mt-6 bg-blue-950/10 border border-blue-950/20 p-3 rounded-md text-xs text-blue-400 max-w-sm">
+            <div className="mt-6 bg-primary/10 border border-primary/20 p-3 rounded-md text-xs text-primary max-w-sm">
               <p className="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
                   <circle cx="12" cy="12" r="10"/>
@@ -141,7 +141,7 @@ const SummarySection = ({
             <p className="text-center text-sm mt-2 max-w-md">
               {summaryError || "There was an error processing your request. Please try again."}
             </p>
-            <div className="mt-6 bg-red-950/10 border border-red-950/20 p-4 rounded-md text-sm text-red-500 max-w-md">
+            <div className="mt-6 bg-red-500/10 border border-red-400/20 p-4 rounded-md text-sm text-red-400 max-w-md">
               <p className="font-medium mb-2">Troubleshooting tips:</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>Check your internet connection and try again</li>
