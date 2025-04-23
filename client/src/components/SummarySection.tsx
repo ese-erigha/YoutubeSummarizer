@@ -24,9 +24,9 @@ const SummarySection = ({
 }: SummarySectionProps) => {
   return (
     <section aria-labelledby="summary-heading">
-      <div className="bg-white p-6 rounded-lg shadow-md h-full flex flex-col">
+      <div className="bg-card p-6 rounded-lg shadow-md border border-border h-full flex flex-col">
         <div className="flex items-center justify-between mb-4">
-          <h2 id="summary-heading" className="text-xl font-bold text-gray-800">
+          <h2 id="summary-heading" className="text-xl font-bold text-foreground">
             Summary
           </h2>
           <Button
@@ -48,8 +48,8 @@ const SummarySection = ({
 
         {/* Initial state */}
         {!hasTranscript && !summary && !isSummaryLoading && !summaryError && (
-          <div className="flex-grow flex flex-col items-center justify-center text-gray-400 py-12">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+          <div className="flex-grow flex flex-col items-center justify-center text-muted-foreground py-12">
+            <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center mb-4">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
                 <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
@@ -59,12 +59,12 @@ const SummarySection = ({
                 <path d="M8 16h.01"/>
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-700 mb-2">No Summary Yet</h3>
-            <p className="text-center text-gray-500 max-w-sm mb-6">
+            <h3 className="text-lg font-medium text-foreground mb-2">No Summary Yet</h3>
+            <p className="text-center text-muted-foreground max-w-sm mb-6">
               After extracting the transcript, click "Generate Summary" to create an AI-powered summary of the video.
             </p>
             
-            <div className="bg-amber-50 p-4 rounded-md text-sm text-amber-800 max-w-md">
+            <div className="bg-amber-950/10 border border-amber-950/20 p-4 rounded-md text-sm text-amber-500 max-w-md">
               <p className="font-medium mb-2">What to expect:</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>A concise overview of the video content</li>
@@ -80,8 +80,8 @@ const SummarySection = ({
         {hasTranscript && !summary && !isSummaryLoading && (!summaryError || (summaryError && summaryError.includes("not found"))) && (
           <div className="flex-grow flex flex-col items-center justify-center py-12">
             <div className="text-center mb-6">
-              <h3 className="text-lg font-medium text-gray-700 mb-2">Transcript Ready!</h3>
-              <p className="text-gray-500 max-w-sm">
+              <h3 className="text-lg font-medium text-foreground mb-2">Transcript Ready!</h3>
+              <p className="text-muted-foreground max-w-sm">
                 Your transcript has been successfully extracted. 
                 Now you can generate an AI-powered summary with one click!
               </p>
@@ -101,7 +101,7 @@ const SummarySection = ({
               </Button>
             </div>
             
-            <p className="text-xs text-gray-400 mt-4">
+            <p className="text-xs text-muted-foreground mt-4">
               Powered by GPT-4o AI technology
             </p>
           </div>
