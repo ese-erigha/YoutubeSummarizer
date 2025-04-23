@@ -7,7 +7,6 @@ import { dirname, resolve, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const rootDir = resolve(__dirname, '..');
-const clientDir = join(rootDir, 'client');
 const distDir = join(rootDir, 'dist');
 
 // Create our Express server 
