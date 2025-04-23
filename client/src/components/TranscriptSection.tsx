@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { formatTimestamp, generateTimestampUrl, extractVideoId } from "@/lib/youtube";
 import { useState, useEffect } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 export interface TranscriptSegment {
   text: string;
@@ -30,12 +31,23 @@ const TranscriptSection = ({
 }: TranscriptSectionProps) => {
   const videoId = extractVideoId(videoUrl);
   const hasTranscript = transcript && transcript.length > 0;
+  const [showAllSegments, setShowAllSegments] = useState(false);
+  const initialSegmentsCount = 10; // Default number of segments to show initially
+  
+  // Determine which segments to display
+  const displayedTranscript = showAllSegments 
+    ? transcript 
+    : transcript.slice(0, initialSegmentsCount);
   
   const handleTimestampClick = (timestamp: number) => {
     if (videoId) {
       const url = generateTimestampUrl(videoId, timestamp);
       window.open(url, '_blank');
     }
+  };
+  
+  const toggleShowAll = () => {
+    setShowAllSegments(!showAllSegments);
   };
 
   return (
@@ -138,18 +150,29 @@ const TranscriptSection = ({
             <div className="mb-4">
               <h3 className="font-medium text-lg text-foreground">{videoTitle}</h3>
               <p className="text-sm text-muted-foreground">{channelTitle} • {duration}</p>
-              <div className="mt-2 text-xs bg-accent text-accent-foreground p-2 rounded-md border border-accent">
-                <p className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="m9 12 2 2 4-4"/>
-                  </svg>
-                  Click on any timestamp to navigate to that specific point in the YouTube video.
-                </p>
+              <div className="mt-2 flex flex-col sm:flex-row gap-2">
+                <div className="text-xs bg-accent text-accent-foreground p-2 rounded-md border border-accent flex-1">
+                  <p className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="m9 12 2 2 4-4"/>
+                    </svg>
+                    Click on any timestamp to navigate to that specific point in the YouTube video.
+                  </p>
+                </div>
+                
+                {transcript.length > initialSegmentsCount && (
+                  <div className="text-xs bg-secondary text-secondary-foreground p-2 rounded-md border border-secondary flex-1">
+                    <p className="flex items-center">
+                      <ChevronDown className="w-4 h-4 mr-1" />
+                      Showing first {initialSegmentsCount} of {transcript.length} segments. Click "Show More" below to expand.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex-grow overflow-y-auto bg-muted/30 p-3 sm:p-4 rounded-md font-content shadow-inner border border-border">
-              {transcript.map((segment, index) => (
+              {displayedTranscript.map((segment, index) => (
                 <div className="mb-4 flex flex-col sm:flex-row border-b border-border/40 pb-3 last:border-0" key={index}>
                   <div className="mb-2 sm:mb-0 sm:mr-4 sm:w-24 flex-shrink-0">
                     <button
@@ -169,6 +192,30 @@ const TranscriptSection = ({
                   </div>
                 </div>
               ))}
+              
+              {/* Show More/Less Button - Only display if transcript length exceeds initialSegmentsCount */}
+              {hasTranscript && transcript.length > initialSegmentsCount && (
+                <div className="flex justify-center mt-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={toggleShowAll}
+                    className="flex items-center text-primary border-primary hover:bg-primary/10 gap-1"
+                  >
+                    {showAllSegments ? (
+                      <>
+                        <ChevronUp size={16} />
+                        <span>Show Less</span>
+                      </>
+                    ) : (
+                      <>
+                        <ChevronDown size={16} />
+                        <span>Show More ({transcript.length - initialSegmentsCount} more segments)</span>
+                      </>
+                    )}
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         )}
