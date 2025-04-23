@@ -1,14 +1,11 @@
 import { Link } from "wouter";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface HeaderProps {
   onOpenHistory: () => void;
 }
 
 export const Header = ({ onOpenHistory }: HeaderProps) => {
-  // Use light mode
-  const [theme] = useState<'light' | 'dark'>('light');
-
   useEffect(() => {
     const root = window.document.documentElement;
     // Always make sure dark class is removed and light is added
@@ -16,11 +13,6 @@ export const Header = ({ onOpenHistory }: HeaderProps) => {
     root.classList.add('light');
     localStorage.setItem('theme', 'light');
   }, []);
-
-  // Keep toggle function but make it do nothing
-  const toggleTheme = () => {
-    // Do nothing - we're keeping light mode
-  };
 
   return (
     <header className="bg-primary shadow-md sticky top-0 z-10">
@@ -64,23 +56,6 @@ export const Header = ({ onOpenHistory }: HeaderProps) => {
                 </svg>
                 <span className="hidden md:inline">History</span>
               </button>
-            </li>
-            
-            <li>
-              <div className="text-primary-foreground font-medium flex items-center p-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 md:mr-2">
-                  <circle cx="12" cy="12" r="4" />
-                  <path d="M12 2v2" />
-                  <path d="M12 20v2" />
-                  <path d="m4.93 4.93 1.41 1.41" />
-                  <path d="m17.66 17.66 1.41 1.41" />
-                  <path d="M2 12h2" />
-                  <path d="M20 12h2" />
-                  <path d="m6.34 17.66-1.41 1.41" />
-                  <path d="m19.07 4.93-1.41 1.41" />
-                </svg>
-                <span className="hidden md:inline">Light Mode</span>
-              </div>
             </li>
             <li className="hidden md:block">
               <div className="text-xs text-primary-foreground/60 pl-2 py-2 border-l border-primary-foreground/20">
