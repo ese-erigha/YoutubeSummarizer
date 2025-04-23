@@ -251,28 +251,35 @@ const Home = () => {
           isLoading={extractTranscriptMutation.isPending} 
         />
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <TranscriptSection
-            videoUrl={youtubeUrl}
-            videoTitle={videoDetails?.title || ""}
-            channelTitle={videoDetails?.channelTitle || ""}
-            duration={videoDetails?.duration || ""}
-            transcript={videoDetails?.transcript || []}
-            isLoading={extractTranscriptMutation.isPending}
-            error={videoError ? (videoError as Error).message : null}
-            onDownloadTranscript={handleDownloadTranscript}
-          />
+        {/* Responsive grid layout that works well on all screen sizes */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          {/* Transcript section takes full width on small screens, 1/2 width on medium screens, 1/3 width on large screens */}
+          <div className="order-1">
+            <TranscriptSection
+              videoUrl={youtubeUrl}
+              videoTitle={videoDetails?.title || ""}
+              channelTitle={videoDetails?.channelTitle || ""}
+              duration={videoDetails?.duration || ""}
+              transcript={videoDetails?.transcript || []}
+              isLoading={extractTranscriptMutation.isPending}
+              error={videoError ? (videoError as Error).message : null}
+              onDownloadTranscript={handleDownloadTranscript}
+            />
+          </div>
           
-          <SummarySection
-            transcript={getFullTranscript()}
-            videoTitle={videoDetails?.title || ""}
-            summary={summaryData?.summary || null}
-            isSummaryLoading={generateSummaryMutation.isPending}
-            summaryError={summaryError ? (summaryError as Error).message : null}
-            onGenerateSummary={handleGenerateSummary}
-            onRegenerateSummary={handleRegenerateSummary}
-            hasTranscript={!!(videoDetails?.transcript && videoDetails.transcript.length > 0)}
-          />
+          {/* Summary section takes full width on small screens, 1/2 width on medium screens, 2/3 width on large screens */}
+          <div className="md:col-span-1 lg:col-span-2 order-2">
+            <SummarySection
+              transcript={getFullTranscript()}
+              videoTitle={videoDetails?.title || ""}
+              summary={summaryData?.summary || null}
+              isSummaryLoading={generateSummaryMutation.isPending}
+              summaryError={summaryError ? (summaryError as Error).message : null}
+              onGenerateSummary={handleGenerateSummary}
+              onRegenerateSummary={handleRegenerateSummary}
+              hasTranscript={!!(videoDetails?.transcript && videoDetails.transcript.length > 0)}
+            />
+          </div>
         </div>
       </main>
       

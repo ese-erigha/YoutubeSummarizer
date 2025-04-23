@@ -56,6 +56,11 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
                 placeholder="https://www.youtube.com/watch?v=..."
                 aria-describedby="url-validation"
                 className={`w-full ${!isValid ? 'border-red-500 focus:ring-red-500' : ''}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !isLoading && url.trim().length > 0) {
+                    handleSubmit();
+                  }
+                }}
               />
               {!isValid && (
                 <p id="url-validation" className="mt-1 text-sm text-red-600">
@@ -66,19 +71,25 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
             <Button
               onClick={handleSubmit}
               disabled={isLoading || url.trim().length === 0}
-              className="flex items-center justify-center min-w-max"
+              className="flex items-center justify-center min-w-max h-auto py-2.5 sm:py-2 px-4 bg-primary hover:bg-primary-600 transition-colors shadow-md"
               aria-label="Extract transcript"
             >
               {isLoading ? (
-                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                <>
+                  <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  <span>Extracting...</span>
+                </>
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download mr-2">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="7 10 12 15 17 10"/>
-                  <line x1="12" x2="12" y1="15" y2="3"/>
-                </svg>
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" x2="12" y1="15" y2="3"/>
+                  </svg>
+                  <span className="hidden sm:inline">Extract Transcript</span>
+                  <span className="sm:hidden">Extract</span>
+                </>
               )}
-              Extract Transcript
             </Button>
           </div>
           <p className="mt-2 text-sm text-gray-500">
