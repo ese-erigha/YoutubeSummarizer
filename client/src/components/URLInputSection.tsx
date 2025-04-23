@@ -120,27 +120,28 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
               )}
             </Button>
           </div>
-          <div className="mt-4">
-            <div className="bg-[#121212] rounded-xl p-4 border border-zinc-800/50 flex flex-col items-center text-center">
-              <div className="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center mb-3">
-                <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          <div className="mt-3 text-sm">
+            <div className="p-2 bg-primary/10 rounded-md text-primary border border-primary/20">
+              <p className="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 mt-0.5 flex-shrink-0">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v.01"/>
+                  <path d="M12 8v4"/>
                 </svg>
-              </div>
-              <h3 className="text-base font-medium text-zinc-200 mb-1">Try a Sample Video</h3>
-              <p className="text-xs text-zinc-400 mb-2">See how the app works with a pre-selected example</p>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
-                  setIsValid(true);
-                }}
-                className="bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 border border-purple-500/20 text-xs py-1 h-auto"
-              >
-                Rick Astley - Never Gonna Give You Up
-              </Button>
+                <span>
+                  <strong>Try an example:</strong> <a 
+                    href="#" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+                      setIsValid(true);
+                    }}
+                    className="text-primary underline hover:text-primary/80"
+                  >
+                    Rick Astley - Never Gonna Give You Up
+                  </a>
+                </span>
+              </p>
             </div>
           </div>
         </div>
