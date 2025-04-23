@@ -148,21 +148,25 @@ const TranscriptSection = ({
                 </p>
               </div>
             </div>
-            <div className="flex-grow overflow-y-auto bg-gray-50 p-4 rounded-md font-content">
+            <div className="flex-grow overflow-y-auto bg-gray-50 p-3 sm:p-4 rounded-md font-content shadow-inner">
               {transcript.map((segment, index) => (
-                <div className="mb-4" key={index}>
-                  <button
-                    onClick={() => handleTimestampClick(segment.timestamp)}
-                    className="text-primary hover:text-primary-700 font-medium inline-flex items-center"
-                    aria-label={`Jump to ${formatTimestamp(segment.timestamp)} in video`}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
-                      <circle cx="12" cy="12" r="10"/>
-                      <polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                    {formatTimestamp(segment.timestamp)}
-                  </button>
-                  <p className="mt-1">{segment.text}</p>
+                <div className="mb-4 flex flex-col sm:flex-row border-b border-gray-200 pb-3 last:border-0" key={index}>
+                  <div className="mb-2 sm:mb-0 sm:mr-4 sm:w-20 flex-shrink-0">
+                    <button
+                      onClick={() => handleTimestampClick(segment.timestamp)}
+                      className="text-primary hover:text-primary-700 font-medium inline-flex items-center bg-blue-50 hover:bg-blue-100 transition-colors rounded px-2 py-1 text-sm w-full sm:w-auto justify-center sm:justify-start"
+                      aria-label={`Jump to ${formatTimestamp(segment.timestamp)} in video`}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 flex-shrink-0">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                      </svg>
+                      <span className="whitespace-nowrap">{formatTimestamp(segment.timestamp)}</span>
+                    </button>
+                  </div>
+                  <div className="flex-grow">
+                    <p className="text-gray-800">{segment.text}</p>
+                  </div>
                 </div>
               ))}
             </div>
