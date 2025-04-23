@@ -60,14 +60,10 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
       </p>
       <div className="bg-background p-6 rounded-lg shadow-md border border-border">
         <div className="mb-4">
-          <label htmlFor="youtube-url" className="block text-sm font-medium text-foreground mb-1">
-            YouTube Video URL
-          </label>
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-grow">
               <Input
                 type="url"
-                id="youtube-url"
                 value={url}
                 onChange={handleUrlChange}
                 placeholder="https://www.youtube.com/watch?v=..."
