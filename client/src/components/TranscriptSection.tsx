@@ -64,16 +64,29 @@ const TranscriptSection = ({
         {/* Initial state */}
         {!isLoading && !error && !hasTranscript && (
           <div className="flex-grow flex flex-col items-center justify-center text-gray-400 py-12">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-4">
-              <path d="M7 13h4"/>
-              <path d="M15 13h2"/>
-              <path d="M7 9h2"/>
-              <path d="M13 9h4"/>
-              <path d="M21 15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/>
-            </svg>
-            <p className="text-center">
-              Enter a YouTube URL and click "Extract Transcript" to see the video transcript here.
+            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M7 13h4"/>
+                <path d="M15 13h2"/>
+                <path d="M7 9h2"/>
+                <path d="M13 9h4"/>
+                <path d="M21 15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/>
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-gray-700 mb-2">No Transcript Yet</h3>
+            <p className="text-center text-gray-500 max-w-sm mb-6">
+              Enter a YouTube URL in the field above and click "Extract Transcript" to see the video transcript here.
             </p>
+            
+            <div className="bg-blue-50 p-4 rounded-md text-sm text-blue-800 max-w-md">
+              <p className="font-medium mb-2">Pro tips:</p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>Make sure the video has captions/subtitles available for best results</li>
+                <li>Official YouTube channels often have better caption quality</li>
+                <li>You can use the timestamp links to navigate through the video</li>
+                <li>Download the transcript to save it for later use</li>
+              </ul>
+            </div>
           </div>
         )}
 
@@ -81,7 +94,17 @@ const TranscriptSection = ({
         {isLoading && (
           <div className="flex-grow flex flex-col items-center justify-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mb-4"></div>
-            <p className="text-primary">Extracting transcript...</p>
+            <p className="text-primary font-medium mb-2">Extracting transcript...</p>
+            <p className="text-sm text-gray-500 text-center max-w-md">
+              We're fetching the video transcript from YouTube. This may take a few moments
+              depending on the video length. If captions aren't available, we'll create a
+              transcript based on the video description.
+            </p>
+            <div className="flex items-center justify-center mt-6 space-x-1">
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: "0ms" }}></div>
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: "300ms" }}></div>
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: "600ms" }}></div>
+            </div>
           </div>
         )}
 
@@ -93,10 +116,19 @@ const TranscriptSection = ({
               <line x1="12" x2="12" y1="8" y2="12"/>
               <line x1="12" x2="12.01" y1="16" y2="16"/>
             </svg>
-            <p className="text-center font-medium">Failed to extract transcript.</p>
-            <p className="text-center text-sm mt-2">
+            <p className="text-center font-medium">Failed to extract transcript</p>
+            <p className="text-center text-sm mt-2 max-w-md">
               {error || "This video might not have captions available, or there was an error processing your request."}
             </p>
+            <div className="mt-6 bg-red-50 p-4 rounded-md text-sm text-red-800 max-w-md">
+              <p className="font-medium mb-2">Troubleshooting tips:</p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>Check if the video has captions or subtitles available</li>
+                <li>Verify that the YouTube URL is correct and valid</li>
+                <li>Try a different video with known captions</li>
+                <li>If the issue persists, please try again later</li>
+              </ul>
+            </div>
           </div>
         )}
 
