@@ -150,8 +150,8 @@ const TranscriptSection = ({
             <div className="mb-4">
               <h3 className="font-medium text-lg text-foreground">{videoTitle}</h3>
               <p className="text-sm text-muted-foreground">{channelTitle} • {duration}</p>
-              <div className="mt-2 flex flex-col sm:flex-row gap-2">
-                <div className="text-xs bg-accent text-accent-foreground p-2 rounded-md border border-accent flex-1">
+              <div className="mt-2">
+                <div className="text-xs bg-accent text-accent-foreground p-2 rounded-md border border-accent">
                   <p className="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
                       <circle cx="12" cy="12" r="10"/>
@@ -160,15 +160,6 @@ const TranscriptSection = ({
                     Click on any timestamp to navigate to that specific point in the YouTube video.
                   </p>
                 </div>
-                
-                {transcript.length > initialSegmentsCount && (
-                  <div className="text-xs bg-secondary text-secondary-foreground p-2 rounded-md border border-secondary flex-1">
-                    <p className="flex items-center">
-                      <ChevronDown className="w-4 h-4 mr-1" />
-                      Showing first {initialSegmentsCount} of {transcript.length} segments. Click "Show More" below to expand.
-                    </p>
-                  </div>
-                )}
               </div>
             </div>
             <div className="flex-grow overflow-y-auto bg-muted/30 p-3 sm:p-4 rounded-md font-content shadow-inner border border-border">
