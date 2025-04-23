@@ -18,7 +18,24 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
     
     // Only validate if there's a URL entered
     if (newUrl.trim().length > 0) {
-      setIsValid(isValidYoutubeUrl(newUrl));
+      // Immediate validation for proper user feedback
+      const valid = isValidYoutubeUrl(newUrl);
+      setIsValid(valid);
+      
+      // If user pastes a URL with extra text/spaces, try to extract and auto-correct
+      if (!valid && newUrl.includes('youtube.com/watch?v=')) {
+        try {
+          // Find the YouTube URL in the pasted text
+          const urlMatch = newUrl.match(/(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[a-zA-Z0-9_-]{11}/);
+          if (urlMatch && urlMatch[0]) {
+            setUrl(urlMatch[0]);
+            setIsValid(true);
+          }
+        } catch (error) {
+          // If extraction fails, keep the original URL
+          console.log("URL extraction failed", error);
+        }
+      }
     } else {
       setIsValid(true); // Reset validation if empty
     }
@@ -63,9 +80,20 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
                 }}
               />
               {!isValid && (
-                <p id="url-validation" className="mt-1 text-sm text-red-600">
-                  Please enter a valid YouTube URL.
-                </p>
+                <div id="url-validation" className="mt-1 text-sm text-red-600 p-2 bg-red-50 rounded-md border border-red-100">
+                  <p className="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 mt-0.5 flex-shrink-0">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="12" x2="12" y1="8" y2="12"/>
+                      <line x1="12" x2="12.01" y1="16" y2="16"/>
+                    </svg>
+                    <span>
+                      Please enter a valid YouTube URL. Examples:<br/>
+                      <code className="text-xs bg-white px-1 py-0.5 rounded">https://www.youtube.com/watch?v=VIDEOID</code><br/>
+                      <code className="text-xs bg-white px-1 py-0.5 rounded">https://youtu.be/VIDEOID</code>
+                    </span>
+                  </p>
+                </div>
               )}
             </div>
             <Button
@@ -92,9 +120,33 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
               )}
             </Button>
           </div>
-          <p className="mt-2 text-sm text-gray-500">
-            Enter a YouTube video URL to extract its transcript and generate a summary.
-          </p>
+          <div className="mt-3 text-sm">
+            <p className="text-gray-500 mb-1">
+              Enter a YouTube video URL to extract its transcript and generate a summary.
+            </p>
+            <div className="mt-2 p-2 bg-blue-50 rounded-md text-blue-700 border border-blue-100">
+              <p className="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 mt-0.5 flex-shrink-0">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v.01"/>
+                  <path d="M12 8v4"/>
+                </svg>
+                <span>
+                  <strong>Try an example:</strong> <a 
+                    href="#" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+                      setIsValid(true);
+                    }}
+                    className="text-blue-600 underline hover:text-blue-800"
+                  >
+                    Rick Astley - Never Gonna Give You Up
+                  </a>
+                </span>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
