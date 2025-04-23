@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { formatTimestamp, generateTimestampUrl, extractVideoId } from "@/lib/youtube";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 export interface TranscriptSegment {
