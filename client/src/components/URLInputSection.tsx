@@ -121,10 +121,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
             </Button>
           </div>
           <div className="mt-3 text-sm">
-            <p className="text-gray-500 mb-1">
-              Enter a YouTube video URL to extract its transcript and generate a summary.
-            </p>
-            <div className="mt-2 p-2 bg-blue-50 rounded-md text-blue-700 border border-blue-100">
+            <div className="p-2 bg-blue-50 rounded-md text-blue-700 border border-blue-100">
               <p className="flex items-start">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 mt-0.5 flex-shrink-0">
                   <circle cx="12" cy="12" r="10"/>

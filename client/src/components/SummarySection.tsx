@@ -167,16 +167,28 @@ const SummarySection = ({
 
         {/* Summary content */}
         {summary && (
-          <div className="flex-grow overflow-y-auto bg-gray-50 p-4 rounded-md font-content">
-            <div dangerouslySetInnerHTML={{ 
-              __html: summary
-                .replace(/\n\n/g, '<br/><br/>')
-                .replace(/\n/g, '<br/>')
-                .replace(/• (.*?)(?=<br\/>|$)/g, '<li>$1</li>')
-                .replace(/<li>/g, '<ul class="list-disc pl-5 space-y-2"><li>')
-                .replace(/<\/li><br\/><br\/>/g, '</li></ul><br/>')
-                .replace(/<\/li><br\/>/g, '</li></ul>')
-            }} />
+          <div className="flex-grow overflow-y-auto bg-gray-50 p-4 sm:p-6 rounded-md font-content shadow-inner">
+            <div className="prose prose-blue max-w-none">
+              <div dangerouslySetInnerHTML={{ 
+                __html: summary
+                  .replace(/\n\n/g, '<br/><br/>')
+                  .replace(/\n/g, '<br/>')
+                  .replace(/^(.*?)(?=<br\/>|$)/gm, '<p class="mb-4">$1</p>')
+                  .replace(/• (.*?)(?=<br\/>|$)/g, '<li>$1</li>')
+                  .replace(/<li>/g, '<ul class="list-disc pl-5 space-y-1 my-3"><li>')
+                  .replace(/<\/li><br\/><br\/>/g, '</li></ul>')
+                  .replace(/<\/li><br\/>/g, '</li></ul>')
+                  .replace(/<p class="mb-4"><\/p>/g, '')
+                  .replace(/(?:<br\/>)+/g, '')
+                  .replace(/<p class="mb-4">(.*?)<\/p>/g, (match, content) => {
+                    if (content.includes(':') && content.split(':')[0].length < 30) {
+                      const [title, text] = content.split(':');
+                      return `<h3 class="text-lg font-semibold mt-4 mb-2 text-gray-800">${title}:</h3><p class="mb-3">${text}</p>`;
+                    }
+                    return match;
+                  })
+              }} />
+            </div>
           </div>
         )}
       </div>
