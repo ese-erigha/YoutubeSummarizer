@@ -121,7 +121,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
             </Button>
           </div>
           <div className="mt-3 text-sm">
-            <div className="p-2 bg-blue-950/20 rounded-md text-blue-400 border border-blue-950/30">
+            <div className="p-2 bg-primary/10 rounded-md text-primary border border-primary/20">
               <p className="flex items-start">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 mt-0.5 flex-shrink-0">
                   <circle cx="12" cy="12" r="10"/>
@@ -136,7 +136,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
                       setUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
                       setIsValid(true);
                     }}
-                    className="text-blue-400 underline hover:text-blue-300"
+                    className="text-primary underline hover:text-primary/80"
                   >
                     Rick Astley - Never Gonna Give You Up
                   </a>
