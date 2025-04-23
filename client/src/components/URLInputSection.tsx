@@ -52,15 +52,15 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
 
   return (
     <section className="mb-8" aria-labelledby="url-input-heading">
-      <h2 id="url-input-heading" className="text-xl font-bold mb-2 text-gray-800">
+      <h2 id="url-input-heading" className="text-xl font-bold mb-2 text-foreground">
         Extract Video Transcript
       </h2>
-      <p className="mb-4 text-gray-600">
+      <p className="mb-4 text-muted-foreground">
         Enter a YouTube video URL below to extract its transcript and generate an AI-powered summary.
       </p>
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-card p-6 rounded-lg shadow-md border border-border">
         <div className="mb-4">
-          <label htmlFor="youtube-url" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="youtube-url" className="block text-sm font-medium text-foreground mb-1">
             YouTube Video URL
           </label>
           <div className="flex flex-col sm:flex-row gap-4">
@@ -80,7 +80,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
                 }}
               />
               {!isValid && (
-                <div id="url-validation" className="mt-1 text-sm text-red-600 p-2 bg-red-50 rounded-md border border-red-100">
+                <div id="url-validation" className="mt-1 text-sm text-red-400 p-2 bg-red-950/20 rounded-md border border-red-950/30">
                   <p className="flex items-start">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 mt-0.5 flex-shrink-0">
                       <circle cx="12" cy="12" r="10"/>
@@ -89,8 +89,8 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
                     </svg>
                     <span>
                       Please enter a valid YouTube URL. Examples:<br/>
-                      <code className="text-xs bg-white px-1 py-0.5 rounded">https://www.youtube.com/watch?v=VIDEOID</code><br/>
-                      <code className="text-xs bg-white px-1 py-0.5 rounded">https://youtu.be/VIDEOID</code>
+                      <code className="text-xs bg-card/60 px-1 py-0.5 rounded border border-border">https://www.youtube.com/watch?v=VIDEOID</code><br/>
+                      <code className="text-xs bg-card/60 px-1 py-0.5 rounded border border-border">https://youtu.be/VIDEOID</code>
                     </span>
                   </p>
                 </div>
@@ -121,7 +121,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
             </Button>
           </div>
           <div className="mt-3 text-sm">
-            <div className="p-2 bg-blue-50 rounded-md text-blue-700 border border-blue-100">
+            <div className="p-2 bg-blue-950/20 rounded-md text-blue-400 border border-blue-950/30">
               <p className="flex items-start">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 mt-0.5 flex-shrink-0">
                   <circle cx="12" cy="12" r="10"/>
@@ -136,7 +136,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
                       setUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
                       setIsValid(true);
                     }}
-                    className="text-blue-600 underline hover:text-blue-800"
+                    className="text-blue-400 underline hover:text-blue-300"
                   >
                     Rick Astley - Never Gonna Give You Up
                   </a>
