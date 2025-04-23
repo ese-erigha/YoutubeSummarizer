@@ -78,8 +78,8 @@ const TranscriptSection = ({
               Enter a YouTube URL in the field above and click "Extract Transcript" to see the video transcript here.
             </p>
             
-            <div className="bg-primary/20 dark:bg-primary/30 p-4 rounded-md text-sm text-primary dark:text-primary-foreground border border-primary/30 max-w-md">
-              <p className="font-medium mb-2 dark:text-white">Pro tips:</p>
+            <div className="bg-accent p-4 rounded-md text-sm text-accent-foreground border border-accent max-w-md">
+              <p className="font-medium mb-2">Pro tips:</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>Make sure the video has captions/subtitles available for best results</li>
                 <li>Official YouTube channels often have better caption quality</li>
@@ -110,7 +110,7 @@ const TranscriptSection = ({
 
         {/* Error state */}
         {error && (
-          <div className="flex-grow flex flex-col items-center justify-center text-red-500 py-12">
+          <div className="flex-grow flex flex-col items-center justify-center text-destructive py-12">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-4">
               <circle cx="12" cy="12" r="10"/>
               <line x1="12" x2="12" y1="8" y2="12"/>
@@ -138,7 +138,7 @@ const TranscriptSection = ({
             <div className="mb-4">
               <h3 className="font-medium text-lg text-foreground">{videoTitle}</h3>
               <p className="text-sm text-muted-foreground">{channelTitle} • {duration}</p>
-              <div className="mt-2 text-xs text-primary dark:text-primary-foreground bg-primary/20 dark:bg-primary/30 p-2 rounded-md border border-primary/30">
+              <div className="mt-2 text-xs bg-accent text-accent-foreground p-2 rounded-md border border-accent">
                 <p className="flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
                     <circle cx="12" cy="12" r="10"/>
@@ -154,7 +154,7 @@ const TranscriptSection = ({
                   <div className="mb-2 sm:mb-0 sm:mr-4 sm:w-24 flex-shrink-0">
                     <button
                       onClick={() => handleTimestampClick(segment.timestamp)}
-                      className="text-primary hover:text-primary-foreground font-medium inline-flex items-center bg-primary/10 hover:bg-primary/20 transition-colors rounded px-3 py-2 sm:py-1.5 text-sm w-full justify-center sm:justify-start shadow-sm hover:shadow"
+                      className="text-primary hover:text-primary-foreground font-medium inline-flex items-center bg-secondary hover:bg-secondary/80 transition-colors rounded px-3 py-2 sm:py-1.5 text-sm w-full justify-center sm:justify-start shadow-sm hover:shadow"
                       aria-label={`Jump to ${formatTimestamp(segment.timestamp)} in video`}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5 flex-shrink-0">

@@ -122,11 +122,8 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
           </div>
           <div className="mt-3 text-sm">
             <div className="relative group">
-              {/* Medium-style hint box (no gradient in light mode) */}
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/0 to-primary-700/0 dark:from-primary to-primary-700 rounded-sm blur opacity-0 dark:opacity-30 group-hover:dark:opacity-100 transition duration-200"></div>
-              
-              {/* Medium-style hint box - clean with light gray border */}
-              <div className="p-3 bg-white dark:bg-black/80 rounded-sm text-foreground dark:text-primary-foreground border border-gray-200 dark:border-primary/50 relative shadow-none">
+              {/* Standard Tailwind hint box */}
+              <div className="p-3 bg-accent rounded-md text-accent-foreground border border-accent relative">
                 <p className="flex items-start">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5 mt-0.5 flex-shrink-0 text-primary">
                     <circle cx="12" cy="12" r="10"/>
@@ -134,15 +131,14 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
                     <path d="M12 8v4"/>
                   </svg>
                   <span>
-                    <strong className="text-foreground dark:text-white font-medium" style={{ fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif' }}>Try an example:</strong> <a 
+                    <strong className="font-medium">Try an example:</strong> <a 
                       href="#" 
                       onClick={(e) => {
                         e.preventDefault();
                         setUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
                         setIsValid(true);
                       }}
-                      className="text-black/80 dark:text-primary hover:text-primary dark:hover:text-white hover:underline ml-1"
-                      style={{ textDecoration: 'none', fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif' }}
+                      className="text-primary hover:underline ml-1"
                     >
                       Rick Astley - Never Gonna Give You Up
                     </a>
