@@ -1,64 +1,67 @@
-// Frontend-only entry point wrapper for backward compatibility
-// This file exists only to satisfy the existing workflow configuration
+// Simple Express server to build and serve our frontend
 import express from 'express';
+import { exec } from 'child_process';
 import { fileURLToPath } from 'url';
 import { dirname, resolve, join } from 'path';
-import { spawn } from 'child_process';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const rootDir = resolve(__dirname, '..');
 const clientDir = join(rootDir, 'client');
+const distDir = join(rootDir, 'dist');
 
-console.log('Starting TubeSummarize in frontend-only mode...');
-console.log('Root directory:', rootDir);
-console.log('Client directory:', clientDir);
-
-// Start a simple Express server to serve the frontend app
+// Create our Express server 
 const app = express();
-
-// Start Vite in development mode (as a child process)
-const viteProcess = spawn('npx', ['vite', '--host', '0.0.0.0', '--port', '3000'], {
-  stdio: 'pipe', // We'll capture and forward the output
-  cwd: rootDir,
-  env: {
-    ...process.env,
-    NODE_ENV: 'development',
-  },
-});
-
-// Forward Vite output to console
-viteProcess.stdout.on('data', (data) => {
-  process.stdout.write(data);
-});
-
-viteProcess.stderr.on('data', (data) => {
-  process.stderr.write(data);
-});
-
-// Set up simple health check endpoint
-app.get('/health', (req, res) => {
-  res.send({ status: 'ok', mode: 'frontend-only' });
-});
-
-// Proxy all other requests to Vite
-app.all('*', (req, res) => {
-  res.redirect(`http://localhost:3000${req.url}`);
-});
-
-// Start the Express server on port 5000
 const PORT = 5000;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Express server running at http://localhost:${PORT}`);
-  console.log(`Proxying requests to Vite server at http://localhost:3000`);
-});
 
-// Handle clean shutdown
-const shutdown = () => {
-  console.log('Shutting down...');
-  viteProcess.kill();
-  process.exit(0);
-};
+console.log('Starting TubeSummarize app using Express to serve the frontend...');
 
-process.on('SIGINT', shutdown);
-process.on('SIGTERM', shutdown);
+// Build the app in production mode
+function buildApp() {
+  return new Promise((resolve, reject) => {
+    console.log('Building the frontend application...');
+    exec('npx vite build', { cwd: rootDir }, (error, stdout, stderr) => {
+      if (error) {
+        console.error('Build error:', error);
+        console.error(stderr);
+        reject(error);
+        return;
+      }
+      console.log(stdout);
+      resolve(stdout);
+    });
+  });
+}
+
+async function startServer() {
+  try {
+    // Build the app
+    await buildApp();
+    
+    console.log('Build complete, serving static files...');
+    
+    // Serve static assets from the dist directory
+    app.use(express.static(join(distDir, 'public')));
+    
+    // API endpoint for checking the server status
+    app.get('/api/status', (req, res) => {
+      res.json({ status: 'ok', mode: 'production' });
+    });
+    
+    // For all other routes, serve the index.html (SPA fallback)
+    app.get('*', (req, res) => {
+      res.sendFile(join(distDir, 'public', 'index.html'));
+    });
+    
+    // Start listening
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`Server running at http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();
