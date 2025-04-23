@@ -7,7 +7,6 @@ import OpenAI from "openai";
 import axios from "axios";
 import { YoutubeTranscript } from 'youtube-transcript';
 import { google } from 'googleapis';
-import { OAuth2Client } from 'google-auth-library';
 
 // Initialize OpenAI client with API key from environment
 const openai = new OpenAI({ 
