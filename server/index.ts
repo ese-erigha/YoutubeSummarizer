@@ -1,70 +1,64 @@
-import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
+// Frontend-only entry point wrapper for backward compatibility
+// This file exists only to satisfy the existing workflow configuration
+import express from 'express';
+import { fileURLToPath } from 'url';
+import { dirname, resolve, join } from 'path';
+import { spawn } from 'child_process';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const rootDir = resolve(__dirname, '..');
+const clientDir = join(rootDir, 'client');
+
+console.log('Starting TubeSummarize in frontend-only mode...');
+console.log('Root directory:', rootDir);
+console.log('Client directory:', clientDir);
+
+// Start a simple Express server to serve the frontend app
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
-app.use((req, res, next) => {
-  const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
-
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
-    }
-  });
-
-  next();
+// Start Vite in development mode (as a child process)
+const viteProcess = spawn('npx', ['vite', '--host', '0.0.0.0', '--port', '3000'], {
+  stdio: 'pipe', // We'll capture and forward the output
+  cwd: rootDir,
+  env: {
+    ...process.env,
+    NODE_ENV: 'development',
+  },
 });
 
-(async () => {
-  const server = await registerRoutes(app);
+// Forward Vite output to console
+viteProcess.stdout.on('data', (data) => {
+  process.stdout.write(data);
+});
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+viteProcess.stderr.on('data', (data) => {
+  process.stderr.write(data);
+});
 
-    res.status(status).json({ message });
-    throw err;
-  });
+// Set up simple health check endpoint
+app.get('/health', (req, res) => {
+  res.send({ status: 'ok', mode: 'frontend-only' });
+});
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
+// Proxy all other requests to Vite
+app.all('*', (req, res) => {
+  res.redirect(`http://localhost:3000${req.url}`);
+});
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
-})();
+// Start the Express server on port 5000
+const PORT = 5000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Express server running at http://localhost:${PORT}`);
+  console.log(`Proxying requests to Vite server at http://localhost:3000`);
+});
+
+// Handle clean shutdown
+const shutdown = () => {
+  console.log('Shutting down...');
+  viteProcess.kill();
+  process.exit(0);
+};
+
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
