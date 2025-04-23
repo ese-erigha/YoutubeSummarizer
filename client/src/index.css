@@ -3,27 +3,27 @@
 @tailwind utilities;
 
 :root {
-  /* Modern light mode theme */
-  --background: 0 0% 100%;
-  --foreground: 222 47% 11%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215 25% 27%;
+  /* Medium-inspired light mode theme */
+  --background: 0 0% 98%; /* Slightly off-white like Medium */
+  --foreground: 0 0% 10%; /* Near-black text like Medium */
+  --muted: 30 20% 96%; /* Subtle warm muted background */
+  --muted-foreground: 0 0% 45%; /* Medium's muted text */
   --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
-  --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --primary: 265 89% 56%; /* Keep the vibrant purple for brand consistency */
+  --popover-foreground: 0 0% 10%;
+  --card: 0 0% 100%; /* Pure white cards like Medium */
+  --card-foreground: 0 0% 10%;
+  --border: 0 0% 90%; /* Light gray borders like Medium */
+  --input: 0 0% 90%;
+  --primary: 110 100% 30%; /* Medium-like green accent color */
   --primary-foreground: 0 0% 100%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222 47% 11%;
-  --accent: 210 40% 90%;
-  --accent-foreground: 222 47% 11%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 10%;
+  --accent: 110 100% 30%; /* Medium green */
+  --accent-foreground: 0 0% 98%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
-  --ring: 265 89% 56%;
-  --radius: 0.5rem;
+  --ring: 110 100% 30%;
+  --radius: 0.25rem; /* Medium uses smaller radius */
 }
 
 .dark {
@@ -57,17 +57,15 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground min-h-screen;
-    /* Modern light mode background */
-    background-image: linear-gradient(120deg, 
-      hsl(0 0% 100%), 
-      hsl(210 40% 98%));
-    background-attachment: fixed;
+    /* Medium-inspired light mode - flat color */
+    background-color: hsl(0 0% 98%);
+    background-image: none;
   }
   
-  /* Modern fonts with better readability for light mode */
+  /* Medium-style typography */
   .font-content {
-    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-    letter-spacing: -0.01em;
+    font-family: 'Charter', 'Georgia', 'Cambria', 'Times New Roman', 'Times', serif;
+    letter-spacing: 0;
   }
   
   /* Modern link styling for light mode */
@@ -108,59 +106,122 @@
   }
 }
 
-/* Modern card enhancements for light mode */
+/* Medium-style cards */
 .bg-card {
   background-color: hsl(var(--card));
-  border-color: hsl(var(--border)) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: none !important;
+  box-shadow: none;
   border-radius: var(--radius);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 2rem;
+  transition: opacity 0.2s ease;
+  overflow: visible; /* For drop shadows */
 }
 
 .bg-card:hover {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
+  opacity: 0.97;
+  transform: none;
+  box-shadow: none;
 }
 
-/* Light mode content typography */
+/* Medium-specific container styles */
+.container {
+  max-width: 700px !important; /* Medium uses narrower content width */
+}
+
+/* Medium-style content typography */
 .prose {
-  font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-  line-height: 1.6;
-  color: hsl(var(--foreground) / 0.85);
+  font-family: 'Charter', 'Georgia', 'Cambria', 'Times New Roman', 'Times', serif;
+  line-height: 1.8;
+  color: rgba(0, 0, 0, 0.84); /* Medium's text color */
+  font-size: 20px;
 }
 
 .prose h3 {
-  font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 600;
-  margin-top: 1.5em;
-  color: hsl(var(--foreground));
-  letter-spacing: -0.01em;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  color: rgba(0, 0, 0, 0.84);
+  letter-spacing: -0.012em;
+  font-size: 22px;
+}
+
+.prose h2 {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  margin-top: 2.2em;
+  margin-bottom: 0.6em;
+  color: rgba(0, 0, 0, 0.84);
+  letter-spacing: -0.016em;
+  font-size: 26px;
 }
 
 .prose p {
-  margin-bottom: 1.2em;
-  font-size: 1.02em;
+  margin-bottom: 1.5em;
+  font-size: 20px;
+  letter-spacing: -0.003em;
+  line-height: 1.58;
 }
 
 .prose ul li {
-  margin-bottom: 0.5em;
+  margin-bottom: 0.7em;
+  font-size: 20px;
+  letter-spacing: -0.003em;
 }
 
-/* Modern UI elements for light mode */
+/* Medium-style UI elements */
 button, 
 .btn {
   transition: all 0.15s ease;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+/* Medium-style primary button */
+button[data-variant="default"],
+.btn-primary {
+  background-color: hsl(var(--primary));
+  color: white;
+  border-radius: 99px; /* Medium uses pill-shaped buttons */
+  font-size: 14px;
+  padding: 7px 16px;
+  border: none;
+}
+
+/* Medium-style secondary button */
+button[data-variant="outline"],
+.btn-secondary {
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 99px;
+  font-size: 14px;
+  padding: 7px 16px;
+}
+
+/* Medium-style input */
+input,
+textarea,
+select {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  padding: 8px 12px;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+  border-color: rgba(0, 0, 0, 0.4);
+  box-shadow: none;
+  outline: none;
 }
 
 *:focus-visible {
-  outline: 2px solid hsl(var(--primary) / 0.5);
-  outline-offset: 2px;
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.4);
 }
 
 /* Modern scrollbar for light mode */

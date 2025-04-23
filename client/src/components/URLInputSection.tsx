@@ -122,11 +122,11 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
           </div>
           <div className="mt-3 text-sm">
             <div className="relative group">
-              {/* Light mode has subtle gradient border, dark mode has glowing border */}
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/60 to-primary-700/60 dark:from-primary to-primary-700 rounded-md blur opacity-30 group-hover:opacity-100 transition duration-200"></div>
+              {/* Medium-style hint box (no gradient in light mode) */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/0 to-primary-700/0 dark:from-primary to-primary-700 rounded-sm blur opacity-0 dark:opacity-30 group-hover:dark:opacity-100 transition duration-200"></div>
               
-              {/* Light mode uses white background with primary text */}
-              <div className="p-3 bg-white dark:bg-black/80 rounded-md text-foreground dark:text-primary-foreground border border-primary/30 dark:border-primary/50 relative shadow-md">
+              {/* Medium-style hint box - clean with light gray border */}
+              <div className="p-3 bg-white dark:bg-black/80 rounded-sm text-foreground dark:text-primary-foreground border border-gray-200 dark:border-primary/50 relative shadow-none">
                 <p className="flex items-start">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5 mt-0.5 flex-shrink-0 text-primary">
                     <circle cx="12" cy="12" r="10"/>
@@ -134,14 +134,15 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
                     <path d="M12 8v4"/>
                   </svg>
                   <span>
-                    <strong className="text-foreground dark:text-white font-medium">Try an example:</strong> <a 
+                    <strong className="text-foreground dark:text-white font-medium" style={{ fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif' }}>Try an example:</strong> <a 
                       href="#" 
                       onClick={(e) => {
                         e.preventDefault();
                         setUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
                         setIsValid(true);
                       }}
-                      className="text-primary dark:hover:text-white hover:text-primary-600 underline transition-colors ml-1"
+                      className="text-black/80 dark:text-primary hover:text-primary dark:hover:text-white hover:underline ml-1"
+                      style={{ textDecoration: 'none', fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif' }}
                     >
                       Rick Astley - Never Gonna Give You Up
                     </a>
