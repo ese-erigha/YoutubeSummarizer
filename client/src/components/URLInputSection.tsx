@@ -58,7 +58,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
       <p className="mb-4 text-muted-foreground">
         Enter a YouTube video URL below to extract its transcript and generate an AI-powered summary.
       </p>
-      <div className="bg-card p-6 rounded-lg shadow-md border border-border">
+      <div className="bg-background p-6 rounded-lg shadow-md border border-border">
         <div className="mb-4">
           <label htmlFor="youtube-url" className="block text-sm font-medium text-foreground mb-1">
             YouTube Video URL
@@ -89,8 +89,8 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
                     </svg>
                     <span>
                       Please enter a valid YouTube URL. Examples:<br/>
-                      <code className="text-xs bg-card/60 px-1 py-0.5 rounded border border-border">https://www.youtube.com/watch?v=VIDEOID</code><br/>
-                      <code className="text-xs bg-card/60 px-1 py-0.5 rounded border border-border">https://youtu.be/VIDEOID</code>
+                      <code className="text-xs bg-muted px-1 py-0.5 rounded border border-border">https://www.youtube.com/watch?v=VIDEOID</code><br/>
+                      <code className="text-xs bg-muted px-1 py-0.5 rounded border border-border">https://youtu.be/VIDEOID</code>
                     </span>
                   </p>
                 </div>

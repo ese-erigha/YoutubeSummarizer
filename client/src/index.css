@@ -3,51 +3,50 @@
 @tailwind utilities;
 
 :root {
-  /* Medium-inspired light mode theme */
-  --background: 0 0% 98%; /* Slightly off-white like Medium */
-  --foreground: 0 0% 10%; /* Near-black text like Medium */
-  --muted: 30 20% 96%; /* Subtle warm muted background */
-  --muted-foreground: 0 0% 45%; /* Medium's muted text */
+  /* Default Tailwind light mode */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 10%;
-  --card: 0 0% 100%; /* Pure white cards like Medium */
-  --card-foreground: 0 0% 10%;
-  --border: 0 0% 90%; /* Light gray borders like Medium */
-  --input: 0 0% 90%;
-  --primary: 110 100% 30%; /* Medium-like green accent color */
-  --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 96%;
-  --secondary-foreground: 0 0% 10%;
-  --accent: 110 100% 30%; /* Medium green */
-  --accent-foreground: 0 0% 98%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
-  --ring: 110 100% 30%;
-  --radius: 0.25rem; /* Medium uses smaller radius */
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
 }
 
 .dark {
-  /* Modern sleek dark theme */
-  --background: 222 47% 11%; /* Deep blue-tinted dark background */
-  --foreground: 213 31% 91%; /* Modern crisp white text */
-  --muted: 223 47% 14%; /* Slightly lighter background for muted areas */
-  --muted-foreground: 215 20% 65%; /* Subtle muted text */
-  --popover: 222 45% 13%;
-  --popover-foreground: 213 31% 91%;
-  --card: 222 47% 13%; /* Card background with slight blue tint */
-  --card-foreground: 213 31% 91%;
-  --border: 216 34% 17%; /* Subtle blue-tinted borders */
-  --input: 216 34% 17%;
-  --primary: 265 89% 58%; /* Vibrant purple for modern UI */
-  --primary-foreground: 0 0% 100%;
-  --secondary: 222 47% 20%;
-  --secondary-foreground: 213 31% 91%;
-  --accent: 199 89% 48%; /* Bright azure blue accent */
+  /* Default Tailwind dark mode */
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
   --accent-foreground: 210 40% 98%;
-  --destructive: 0 84% 60%; /* Bright modern red */
+  --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
-  --ring: 265 89% 58%;
-  --radius: 0.5rem; /* Modern rounded corners */
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 48%;
 }
 
 @layer base {
@@ -57,229 +56,51 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground min-h-screen;
-    /* Medium-inspired light mode - flat color */
-    background-color: hsl(0 0% 98%);
-    background-image: none;
   }
   
-  /* Medium-style typography */
-  .font-content {
-    font-family: 'Charter', 'Georgia', 'Cambria', 'Times New Roman', 'Times', serif;
-    letter-spacing: 0;
+  /* Default link styling */
+  a {
+    @apply text-primary hover:underline;
   }
-  
-  /* Modern link styling for light mode */
-  a:not(.btn):not([class*="bg-"]):not([role="menuitem"]) {
-    color: hsl(var(--primary));
-    text-decoration-color: hsl(var(--primary) / 0.2);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
-    transition: all 0.2s ease;
-  }
-  
-  a:not(.btn):not([class*="bg-"]):not([role="menuitem"]):hover {
-    color: hsl(var(--primary) / 0.8);
-    text-decoration-color: hsl(var(--primary) / 0.4);
-  }
-  
-  /* Modern dark theme enhancements */
+
+  /* Default dark mode body */
   .dark body {
-    background-image: linear-gradient(to bottom right, 
-      hsl(222 47% 11%), 
-      hsl(225 47% 10%), 
-      hsl(230 47% 9%));
-    background-attachment: fixed;
-  }
-
-  /* Modern link styling for dark mode */
-  .dark a:not(.btn):not([class*="bg-"]):not([role="menuitem"]) {
-    color: hsl(var(--primary));
-    text-decoration-color: hsl(var(--primary) / 0.3);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
-    transition: all 0.2s ease;
-  }
-  
-  .dark a:not(.btn):not([class*="bg-"]):not([role="menuitem"]):hover {
-    color: hsl(var(--accent));
-    text-decoration-color: hsl(var(--accent));
+    @apply bg-background text-foreground;
   }
 }
 
-/* Medium-style cards */
-.bg-card {
-  background-color: hsl(var(--card));
-  border: none !important;
-  box-shadow: none;
-  border-radius: var(--radius);
-  margin-bottom: 2rem;
-  transition: opacity 0.2s ease;
-  overflow: visible; /* For drop shadows */
+/* Basic card styling */
+.card {
+  @apply bg-card text-card-foreground rounded-md border shadow-sm;
 }
 
-.bg-card:hover {
-  opacity: 0.97;
-  transform: none;
-  box-shadow: none;
-}
-
-/* Medium-specific container styles */
+/* Container style */
 .container {
-  max-width: 700px !important; /* Medium uses narrower content width */
+  @apply mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-/* Medium-style content typography */
+/* Basic typography */
 .prose {
-  font-family: 'Charter', 'Georgia', 'Cambria', 'Times New Roman', 'Times', serif;
-  line-height: 1.8;
-  color: rgba(0, 0, 0, 0.84); /* Medium's text color */
-  font-size: 20px;
+  @apply text-foreground leading-normal;
 }
 
-.prose h3 {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 700;
-  margin-top: 2em;
-  margin-bottom: 0.5em;
-  color: rgba(0, 0, 0, 0.84);
-  letter-spacing: -0.012em;
-  font-size: 22px;
-}
-
-.prose h2 {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 700;
-  margin-top: 2.2em;
-  margin-bottom: 0.6em;
-  color: rgba(0, 0, 0, 0.84);
-  letter-spacing: -0.016em;
-  font-size: 26px;
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  @apply font-semibold text-foreground;
 }
 
 .prose p {
-  margin-bottom: 1.5em;
-  font-size: 20px;
-  letter-spacing: -0.003em;
-  line-height: 1.58;
+  @apply mb-4;
 }
 
-.prose ul li {
-  margin-bottom: 0.7em;
-  font-size: 20px;
-  letter-spacing: -0.003em;
-}
-
-/* Medium-style UI elements */
+/* Basic UI elements */
 button, 
 .btn {
-  transition: all 0.15s ease;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  letter-spacing: 0;
-  font-weight: 400;
+  @apply transition-colors;
 }
 
-/* Medium-style primary button */
-button[data-variant="default"],
-.btn-primary {
-  background-color: hsl(var(--primary));
-  color: white;
-  border-radius: 99px; /* Medium uses pill-shaped buttons */
-  font-size: 14px;
-  padding: 7px 16px;
-  border: none;
-}
-
-/* Medium-style secondary button */
-button[data-variant="outline"],
-.btn-secondary {
-  background-color: transparent;
-  color: rgba(0, 0, 0, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 99px;
-  font-size: 14px;
-  padding: 7px 16px;
-}
-
-/* Medium-style input */
-input,
-textarea,
-select {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  padding: 8px 12px;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: rgba(0, 0, 0, 0.4);
-  box-shadow: none;
-  outline: none;
-}
-
+/* Focus styles */
 *:focus-visible {
-  outline: none;
-  border-color: rgba(0, 0, 0, 0.4);
-}
-
-/* Modern scrollbar for light mode */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
-  border-radius: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.3);
-  border-radius: 8px;
-  transition: background 0.2s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
-}
-
-/* Add subtle animations to light mode */
-.bg-card {
-  animation: fadeIn 0.5s ease-out;
-}
-
-/* Dark mode overrides */
-/* Modern card enhancements with frosted glass effect */
-.dark .bg-card {
-  background-color: hsl(var(--card) / 0.7);
-  border-color: hsl(var(--border) / 0.1) !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-/* Modern typography for dark mode content */
-.dark .prose {
-  line-height: 1.7;
-  color: hsl(var(--foreground) / 0.95);
-}
-
-.dark .prose h3 {
-  letter-spacing: -0.02em;
-}
-
-/* Dark mode UI element enhancements */
-.dark button, 
-.dark .btn {
-  transition: all 0.15s ease;
-}
-
-.dark input:focus,
-.dark textarea:focus,
-.dark select:focus {
-  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.3);
+  @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
 }
 
 /* Custom animation for notification */
@@ -313,45 +134,14 @@ select:focus {
   animation: slide-out-right 0.3s forwards;
 }
 
-/* Modern scrollbar styling */
-.dark ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: hsl(var(--background) / 0.2);
-  border-radius: 8px;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.3);
-  border-radius: 8px;
-  transition: background 0.2s ease;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.5);
-}
-
-/* Add subtle animations */
-.dark .bg-card {
-  animation: fadeIn 0.5s ease-out;
-}
-
+/* Fade in animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* Modern focus styles */
-.dark *:focus-visible {
-  outline: 2px solid hsl(var(--primary) / 0.6);
-  outline-offset: 2px;
 }

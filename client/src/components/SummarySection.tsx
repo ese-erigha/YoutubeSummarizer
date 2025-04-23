@@ -24,7 +24,7 @@ const SummarySection = ({
 }: SummarySectionProps) => {
   return (
     <section aria-labelledby="summary-heading">
-      <div className="bg-card p-6 rounded-lg shadow-md border border-border h-full flex flex-col">
+      <div className="bg-background p-6 rounded-lg shadow-md border border-border h-full flex flex-col">
         <div className="flex items-center justify-between mb-4">
           <h2 id="summary-heading" className="text-xl font-bold text-foreground">
             Summary
