@@ -24,9 +24,28 @@ export function getVideoById(id: string): Video | undefined {
 export function saveVideo(video: InsertVideo): Video {
   const videos = getStoredVideos();
   
-  // Ensure summary is properly typed as string | null to match Video type
+  // Convert transcript array to ensure it's the correct type
+  const formattedTranscript: { text: string; timestamp: number }[] = [];
+  
+  // Safely process the transcript array
+  if (Array.isArray(video.transcript)) {
+    for (const item of video.transcript) {
+      if (item && typeof item === 'object') {
+        const text = typeof item.text === 'string' ? item.text : '';
+        const timestamp = typeof item.timestamp === 'number' ? item.timestamp : 0;
+        formattedTranscript.push({ text, timestamp });
+      }
+    }
+  }
+
+  // Create properly typed Video object
   const newVideo: Video = {
-    ...video,
+    id: video.id,
+    url: video.url,
+    title: video.title,
+    channelTitle: video.channelTitle,
+    duration: video.duration,
+    transcript: formattedTranscript,
     summary: video.summary ?? null, // Convert undefined to null if needed
     thumbnailUrl: video.thumbnailUrl ?? null, // Convert undefined to null if needed
     processedAt: new Date(),

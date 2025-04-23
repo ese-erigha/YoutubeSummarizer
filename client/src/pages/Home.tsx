@@ -147,6 +147,12 @@ const Home = () => {
         // Fetch new transcript
         const result = await fetchYouTubeTranscript(url);
         
+        // Ensure transcript is correctly typed
+        const properlyTypedTranscript = result.transcript.map(segment => ({
+          text: segment.text,
+          timestamp: segment.timestamp
+        }));
+        
         // Save to storage
         const savedVideo = saveVideo({
           id: result.videoId,
@@ -154,7 +160,7 @@ const Home = () => {
           title: result.title,
           channelTitle: result.channelTitle,
           duration: result.duration,
-          transcript: result.transcript,
+          transcript: properlyTypedTranscript,
           thumbnailUrl: result.thumbnailUrl || null,
           summary: null
         });

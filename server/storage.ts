@@ -164,8 +164,29 @@ export class FileStorage implements IStorage {
   }
 
   async createVideo(video: InsertVideo): Promise<Video> {
+    // Convert transcript to proper format
+    const transcript: { text: string; timestamp: number }[] = [];
+    
+    if (Array.isArray(video.transcript)) {
+      for (const item of video.transcript) {
+        if (item && typeof item === 'object') {
+          const text = typeof item.text === 'string' ? item.text : '';
+          const timestamp = typeof item.timestamp === 'number' ? item.timestamp : 0;
+          transcript.push({ text, timestamp });
+        }
+      }
+    }
+    
+    // Create properly typed Video object
     const newVideo: Video = {
-      ...video,
+      id: video.id,
+      url: video.url,
+      title: video.title,
+      channelTitle: video.channelTitle,
+      duration: video.duration,
+      transcript: transcript,
+      summary: video.summary ?? null,
+      thumbnailUrl: video.thumbnailUrl ?? null,
       processedAt: new Date(),
     };
     
