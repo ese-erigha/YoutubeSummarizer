@@ -103,19 +103,20 @@ const HistoryModal = ({
             ) : (
               <div className="space-y-2">
                 {historyItems.map((item) => (
-                  <div key={item.id} className="border-b border-gray-200 py-4 last:border-0">
-                    <div className="flex items-start gap-4">
-                      <div className="w-24 h-16 bg-gray-200 rounded flex-shrink-0 overflow-hidden">
+                  <div key={item.id} className="border-b border-gray-200 py-3 md:py-4 last:border-0">
+                    <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+                      <div className="w-full sm:w-24 h-32 sm:h-16 bg-gray-200 rounded flex-shrink-0 overflow-hidden">
                         {item.thumbnailUrl && (
                           <img
                             src={item.thumbnailUrl}
                             alt={`Thumbnail for ${item.title}`}
                             className="w-full h-full object-cover"
+                            loading="lazy"
                           />
                         )}
                       </div>
-                      <div className="flex-grow overflow-hidden">
-                        <h3 className="font-medium text-gray-900 mb-1 text-ellipsis overflow-hidden whitespace-nowrap">
+                      <div className="flex-grow overflow-hidden w-full">
+                        <h3 className="font-medium text-gray-900 mb-1 line-clamp-2 sm:text-ellipsis sm:overflow-hidden sm:whitespace-nowrap">
                           {item.title}
                         </h3>
                         <p className="text-sm text-gray-500 mb-2">
@@ -126,6 +127,11 @@ const HistoryModal = ({
                           className="text-primary hover:text-primary-700 text-sm font-medium p-0 h-auto"
                           onClick={() => onLoadHistory(item.id)}
                         >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                            <path d="M2 12a10 10 0 0 1 10-10v0a10 10 0 0 1 10 10v0a10 10 0 0 1-10 10v0A10 10 0 0 1 2 12v0Z"/>
+                            <path d="m12 16 4-4-4-4"/>
+                            <path d="M8 12h8"/>
+                          </svg>
                           View transcript & summary
                         </Button>
                       </div>
