@@ -120,7 +120,7 @@ const TranscriptSection = ({
             <p className="text-center text-sm mt-2 max-w-md">
               {error || "This video might not have captions available, or there was an error processing your request."}
             </p>
-            <div className="mt-6 bg-red-500/10 p-4 rounded-md text-sm text-red-400 border border-red-400/20 max-w-md">
+            <div className="mt-6 bg-destructive/10 p-4 rounded-md text-sm text-destructive border border-destructive/20 max-w-md">
               <p className="font-medium mb-2">Troubleshooting tips:</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>Check if the video has captions or subtitles available</li>
