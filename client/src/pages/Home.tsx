@@ -12,6 +12,16 @@ import SummarySection from "@/components/SummarySection";
 import HistoryModal, { HistoryItem } from "@/components/HistoryModal";
 import Notification from "@/components/Notification";
 import Footer from "@/components/Footer";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
+} from "@/components/ui/alert-dialog";
 
 interface VideoDetails {
   videoId: string;
@@ -51,6 +61,23 @@ const Home = () => {
   });
   
   const historyItems: HistoryItem[] = historyData?.videos || [];
+  
+  // Global keyboard shortcut for clearing history
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl+Shift+Delete to open clear history confirmation
+      if (e.ctrlKey && e.shiftKey && e.key === 'Delete' && !isHistoryModalOpen && historyItems.length > 0) {
+        e.preventDefault();
+        setIsConfirmClearOpen(true);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isHistoryModalOpen, historyItems.length]);
 
   // Extract transcript mutation
   const extractTranscriptMutation = useMutation({
@@ -253,6 +280,31 @@ const Home = () => {
       />
       
       <Footer />
+      
+      {/* Global confirmation dialog for clearing history */}
+      <AlertDialog open={isConfirmClearOpen} onOpenChange={setIsConfirmClearOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Clear all history?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete all video transcripts and summaries from your history.
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={() => {
+                handleClearHistory();
+                setIsConfirmClearOpen(false);
+              }}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Yes, clear all
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
