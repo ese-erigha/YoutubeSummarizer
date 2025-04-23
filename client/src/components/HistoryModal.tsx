@@ -71,6 +71,8 @@ const HistoryModal = ({
   const handleConfirmClear = () => {
     onClearHistory();
     setIsConfirmDialogOpen(false);
+    // Close the history modal as well
+    onClose();
   };
 
   return (
