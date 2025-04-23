@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { extractVideoId } from "@/lib/youtube";
 import { useToast } from "@/hooks/use-toast";
+import { SummaryResponse } from "@/lib/openai";
 
 import Header from "@/components/Header";
 import URLInputSection from "@/components/URLInputSection";
@@ -19,6 +20,10 @@ interface VideoDetails {
   duration: string;
   transcript: TranscriptSegment[];
   thumbnailUrl?: string;
+}
+
+interface HistoryResponse {
+  videos: HistoryItem[];
 }
 
 const Home = () => {
@@ -39,7 +44,7 @@ const Home = () => {
   const { toast } = useToast();
 
   // Get history from backend
-  const { data: historyData } = useQuery({
+  const { data: historyData } = useQuery<HistoryResponse>({
     queryKey: ['/api/history'],
     enabled: true,
   });
@@ -98,7 +103,7 @@ const Home = () => {
 
   // Query for video details
   const { data: videoDetails, error: videoError } = useQuery<VideoDetails>({
-    queryKey: ['/api/videos', currentVideoId],
+    queryKey: [`/api/videos/${currentVideoId}`],
     enabled: !!currentVideoId,
   });
 
@@ -109,8 +114,8 @@ const Home = () => {
   };
 
   // Query for summary
-  const { data: summaryData, error: summaryError } = useQuery({
-    queryKey: ['/api/summaries', currentVideoId],
+  const { data: summaryData, error: summaryError } = useQuery<SummaryResponse>({
+    queryKey: [`/api/summaries/${currentVideoId}`],
     enabled: !!currentVideoId,
   });
 
