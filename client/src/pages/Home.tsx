@@ -113,12 +113,24 @@ const Home = () => {
       return response.json();
     },
     onSuccess: (data) => {
+      // Set summary directly to avoid waiting for re-query
+      const summary = data.summary;
+      
       setNotification({
         message: "Summary generated successfully!",
         visible: true,
         type: "success",
       });
+      
+      // Invalidate both history and summary queries
       queryClient.invalidateQueries({ queryKey: ['/api/history'] });
+      queryClient.invalidateQueries({ queryKey: [`/api/summaries/${currentVideoId}`, currentVideoId] });
+      
+      // Try to set the summary data in the query cache directly
+      queryClient.setQueryData([`/api/summaries/${currentVideoId}`, currentVideoId], {
+        videoId: currentVideoId,
+        summary
+      });
     },
     onError: (error) => {
       toast({
