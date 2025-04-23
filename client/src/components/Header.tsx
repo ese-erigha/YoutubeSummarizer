@@ -44,11 +44,11 @@ export const Header = ({ onOpenHistory }: HeaderProps) => {
           <ul className="flex items-center space-x-2 md:space-x-6">
             <li>
               <Link href="/" className="text-white hover:text-primary-200 font-medium flex items-center p-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-home mr-1 md:mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-home mr-1 md:mr-2 text-purple-400">
                   <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                   <polyline points="9 22 9 12 15 12 15 22"/>
                 </svg>
-                <span className="hidden md:inline">Home</span>
+                <span className="hidden md:inline text-purple-400">Home</span>
               </Link>
             </li>
             <li>
@@ -57,21 +57,21 @@ export const Header = ({ onOpenHistory }: HeaderProps) => {
                 className="text-white hover:text-primary-200 font-medium flex items-center p-2 rounded hover:bg-primary-700/30 transition-colors"
                 aria-label="View history"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-history mr-1 md:mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-history mr-1 md:mr-2 text-purple-400">
                   <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
                   <path d="M3 3v5h5"/>
                   <path d="M12 7v5l4 2"/>
                 </svg>
-                <span className="hidden md:inline">History</span>
+                <span className="hidden md:inline text-purple-400">History</span>
               </button>
             </li>
             
             <li>
               <div className="text-white font-medium flex items-center p-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 md:mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 md:mr-2 text-purple-400">
                   <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
                 </svg>
-                <span className="hidden md:inline">Dark Mode</span>
+                <span className="hidden md:inline text-purple-400">Dark Mode</span>
               </div>
             </li>
             <li className="hidden md:block">
