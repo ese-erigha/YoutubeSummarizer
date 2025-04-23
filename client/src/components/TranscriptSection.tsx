@@ -78,7 +78,7 @@ const TranscriptSection = ({
               Enter a YouTube URL in the field above and click "Extract Transcript" to see the video transcript here.
             </p>
             
-            <div className="bg-blue-950/20 p-4 rounded-md text-sm text-blue-400 border border-blue-950/30 max-w-md">
+            <div className="bg-primary/10 p-4 rounded-md text-sm text-primary border border-primary/20 max-w-md">
               <p className="font-medium mb-2">Pro tips:</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>Make sure the video has captions/subtitles available for best results</li>
@@ -120,7 +120,7 @@ const TranscriptSection = ({
             <p className="text-center text-sm mt-2 max-w-md">
               {error || "This video might not have captions available, or there was an error processing your request."}
             </p>
-            <div className="mt-6 bg-red-950/20 p-4 rounded-md text-sm text-red-400 border border-red-950/30 max-w-md">
+            <div className="mt-6 bg-red-500/10 p-4 rounded-md text-sm text-red-400 border border-red-400/20 max-w-md">
               <p className="font-medium mb-2">Troubleshooting tips:</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>Check if the video has captions or subtitles available</li>
@@ -138,7 +138,7 @@ const TranscriptSection = ({
             <div className="mb-4">
               <h3 className="font-medium text-lg text-foreground">{videoTitle}</h3>
               <p className="text-sm text-muted-foreground">{channelTitle} • {duration}</p>
-              <div className="mt-2 text-xs text-blue-400 bg-blue-950/20 p-2 rounded-md border border-blue-950/30">
+              <div className="mt-2 text-xs text-primary bg-primary/10 p-2 rounded-md border border-primary/20">
                 <p className="flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
                     <circle cx="12" cy="12" r="10"/>
