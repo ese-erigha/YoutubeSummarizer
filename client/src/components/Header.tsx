@@ -45,6 +45,14 @@ export const Header = ({ onOpenHistory }: HeaderProps) => {
                 <span>History</span>
               </button>
             </li>
+            
+            <li className="hidden md:block">
+              <div className="text-xs text-white/60 px-2">
+                <span className="hidden md:inline-block">
+                  Ctrl+Shift+Delete to clear history
+                </span>
+              </div>
+            </li>
           </ul>
         </nav>
       </div>

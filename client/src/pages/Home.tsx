@@ -30,6 +30,7 @@ const Home = () => {
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [currentVideoId, setCurrentVideoId] = useState<string | null>(null);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [isConfirmClearOpen, setIsConfirmClearOpen] = useState(false);
   const [notification, setNotification] = useState<{
     message: string;
     visible: boolean;
