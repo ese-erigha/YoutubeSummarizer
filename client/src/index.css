@@ -3,25 +3,26 @@
 @tailwind utilities;
 
 :root {
+  /* Modern light mode theme */
   --background: 0 0% 100%;
-  --foreground: 20 14.3% 4.1%;
-  --muted: 60 4.8% 95.9%;
-  --muted-foreground: 25 5.3% 44.7%;
+  --foreground: 222 47% 11%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215 25% 27%;
   --popover: 0 0% 100%;
-  --popover-foreground: 20 14.3% 4.1%;
+  --popover-foreground: 222 47% 11%;
   --card: 0 0% 100%;
-  --card-foreground: 20 14.3% 4.1%;
-  --border: 20 5.9% 90%;
-  --input: 20 5.9% 90%;
-  --primary: 265 89% 56%; /* Original purple color scheme */
+  --card-foreground: 222 47% 11%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --primary: 265 89% 56%; /* Keep the vibrant purple for brand consistency */
   --primary-foreground: 0 0% 100%;
-  --secondary: 60 4.8% 95.9%;
-  --secondary-foreground: 24 9.8% 10%;
-  --accent: 60 4.8% 95.9%;
-  --accent-foreground: 24 9.8% 10%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222 47% 11%;
+  --accent: 210 40% 90%;
+  --accent-foreground: 222 47% 11%;
   --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 60 9.1% 97.8%;
-  --ring: 265 89% 56%; /* Original purple color scheme */
+  --destructive-foreground: 210 40% 98%;
+  --ring: 265 89% 56%;
   --radius: 0.5rem;
 }
 
@@ -56,6 +57,31 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground min-h-screen;
+    /* Modern light mode background */
+    background-image: linear-gradient(120deg, 
+      hsl(0 0% 100%), 
+      hsl(210 40% 98%));
+    background-attachment: fixed;
+  }
+  
+  /* Modern fonts with better readability for light mode */
+  .font-content {
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.01em;
+  }
+  
+  /* Modern link styling for light mode */
+  a:not(.btn):not([class*="bg-"]):not([role="menuitem"]) {
+    color: hsl(var(--primary));
+    text-decoration-color: hsl(var(--primary) / 0.2);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: all 0.2s ease;
+  }
+  
+  a:not(.btn):not([class*="bg-"]):not([role="menuitem"]):hover {
+    color: hsl(var(--primary) / 0.8);
+    text-decoration-color: hsl(var(--primary) / 0.4);
   }
   
   /* Modern dark theme enhancements */
@@ -67,13 +93,7 @@
     background-attachment: fixed;
   }
 
-  /* Modern sans-serif fonts with better readability */
-  .dark .font-content {
-    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-    letter-spacing: -0.01em;
-  }
-  
-  /* Modern link styling */
+  /* Modern link styling for dark mode */
   .dark a:not(.btn):not([class*="bg-"]):not([role="menuitem"]) {
     color: hsl(var(--primary));
     text-decoration-color: hsl(var(--primary) / 0.3);
@@ -88,11 +108,88 @@
   }
 }
 
-/* Font family overrides */
-.font-content {
-  font-family: 'Inter', sans-serif;
+/* Modern card enhancements for light mode */
+.bg-card {
+  background-color: hsl(var(--card));
+  border-color: hsl(var(--border)) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.bg-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Light mode content typography */
+.prose {
+  font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  color: hsl(var(--foreground) / 0.85);
+}
+
+.prose h3 {
+  font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  margin-top: 1.5em;
+  color: hsl(var(--foreground));
+  letter-spacing: -0.01em;
+}
+
+.prose p {
+  margin-bottom: 1.2em;
+  font-size: 1.02em;
+}
+
+.prose ul li {
+  margin-bottom: 0.5em;
+}
+
+/* Modern UI elements for light mode */
+button, 
+.btn {
+  transition: all 0.15s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+}
+
+*:focus-visible {
+  outline: 2px solid hsl(var(--primary) / 0.5);
+  outline-offset: 2px;
+}
+
+/* Modern scrollbar for light mode */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Add subtle animations to light mode */
+.bg-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Dark mode overrides */
 /* Modern card enhancements with frosted glass effect */
 .dark .bg-card {
   background-color: hsl(var(--card) / 0.7);
@@ -100,39 +197,19 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border-radius: var(--radius);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.dark .bg-card:hover {
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-}
-
-/* Modern typography for content */
+/* Modern typography for dark mode content */
 .dark .prose {
-  font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.7;
   color: hsl(var(--foreground) / 0.95);
 }
 
 .dark .prose h3 {
-  font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 600;
-  margin-top: 1.5em;
-  color: hsl(var(--foreground));
   letter-spacing: -0.02em;
 }
 
-.dark .prose p {
-  margin-bottom: 1.2em;
-  font-size: 1.02em;
-}
-
-.dark .prose ul li {
-  margin-bottom: 0.5em;
-}
-
-/* Add subtle visual details for UI elements */
+/* Dark mode UI element enhancements */
 .dark button, 
 .dark .btn {
   transition: all 0.15s ease;

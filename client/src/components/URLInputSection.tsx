@@ -122,8 +122,11 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
           </div>
           <div className="mt-3 text-sm">
             <div className="relative group">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-primary-700 rounded-md blur opacity-40 group-hover:opacity-100 transition duration-200"></div>
-              <div className="p-3 bg-black dark:bg-black/80 rounded-md text-primary-foreground dark:text-primary-foreground border border-primary/50 relative shadow-md">
+              {/* Light mode has subtle gradient border, dark mode has glowing border */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/60 to-primary-700/60 dark:from-primary to-primary-700 rounded-md blur opacity-30 group-hover:opacity-100 transition duration-200"></div>
+              
+              {/* Light mode uses white background with primary text */}
+              <div className="p-3 bg-white dark:bg-black/80 rounded-md text-foreground dark:text-primary-foreground border border-primary/30 dark:border-primary/50 relative shadow-md">
                 <p className="flex items-start">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5 mt-0.5 flex-shrink-0 text-primary">
                     <circle cx="12" cy="12" r="10"/>
@@ -131,14 +134,14 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
                     <path d="M12 8v4"/>
                   </svg>
                   <span>
-                    <strong className="text-white font-medium">Try an example:</strong> <a 
+                    <strong className="text-foreground dark:text-white font-medium">Try an example:</strong> <a 
                       href="#" 
                       onClick={(e) => {
                         e.preventDefault();
                         setUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
                         setIsValid(true);
                       }}
-                      className="text-primary hover:text-white underline transition-colors ml-1"
+                      className="text-primary dark:hover:text-white hover:text-primary-600 underline transition-colors ml-1"
                     >
                       Rick Astley - Never Gonna Give You Up
                     </a>
