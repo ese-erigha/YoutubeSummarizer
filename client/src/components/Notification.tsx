@@ -32,10 +32,10 @@ const Notification = ({
 
   const bgColor = 
     type === "success" 
-      ? "bg-green-600" 
+      ? "bg-primary" 
       : type === "error" 
-        ? "bg-red-600" 
-        : "bg-blue-600";
+        ? "bg-destructive" 
+        : "bg-primary";
 
   const icon = 
     type === "success" 
@@ -63,7 +63,7 @@ const Notification = ({
 
   return (
     <div 
-      className={`fixed bottom-4 right-4 ${bgColor} text-white px-4 py-3 rounded-md shadow-lg flex items-center z-50 ${animationClass}`}
+      className={`fixed bottom-4 right-4 ${bgColor} text-primary-foreground px-4 py-3 rounded-md shadow-lg flex items-center z-50 ${animationClass}`}
       role="alert"
     >
       {icon}
