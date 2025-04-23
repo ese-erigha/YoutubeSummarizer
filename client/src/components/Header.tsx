@@ -1,10 +1,35 @@
 import { Link } from "wouter";
+import { useEffect, useState } from "react";
 
 interface HeaderProps {
   onOpenHistory: () => void;
 }
 
 export const Header = ({ onOpenHistory }: HeaderProps) => {
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    // Check if theme is stored in localStorage
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'dark' || storedTheme === 'light') {
+      return storedTheme;
+    }
+    // Otherwise check user preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
+
   return (
     <header className="bg-primary shadow-md sticky top-0 z-10">
       <div className="container mx-auto px-4 py-3 md:py-4 flex flex-row items-center justify-between">
@@ -49,6 +74,32 @@ export const Header = ({ onOpenHistory }: HeaderProps) => {
               </button>
             </li>
             
+            <li>
+              <button
+                onClick={toggleTheme}
+                className="text-white hover:text-primary-200 font-medium flex items-center p-2 rounded hover:bg-primary-700/30 transition-colors"
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 md:mr-2">
+                    <circle cx="12" cy="12" r="4"/>
+                    <path d="M12 2v2"/>
+                    <path d="M12 20v2"/>
+                    <path d="m4.93 4.93 1.41 1.41"/>
+                    <path d="m17.66 17.66 1.41 1.41"/>
+                    <path d="M2 12h2"/>
+                    <path d="M20 12h2"/>
+                    <path d="m6.34 17.66-1.41 1.41"/>
+                    <path d="m19.07 4.93-1.41 1.41"/>
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 md:mr-2">
+                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                  </svg>
+                )}
+                <span className="hidden md:inline">{theme === 'dark' ? 'Light' : 'Dark'} Mode</span>
+              </button>
+            </li>
             <li className="hidden md:block">
               <div className="text-xs text-white/60 pl-2 py-2 border-l border-white/20">
                 <kbd className="hidden md:inline-flex items-center rounded border border-white/30 px-1.5 text-[10px] font-medium">
