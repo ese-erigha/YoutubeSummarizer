@@ -363,6 +363,12 @@ function parseDurationToSeconds(duration: string): number {
 function generateTranscriptSegments(videoId: string, durationInSeconds: number, segmentCount: number, description: string) {
   const segments = [];
   const segmentDuration = Math.floor(durationInSeconds / segmentCount);
+  
+  // Add a special first segment to indicate this is generated content (not actual transcript)
+  segments.push({
+    text: "Note: This video doesn't have captions available. The following transcript is generated from the video description and is not a precise representation of the actual content.",
+    timestamp: 0
+  });
 
   // Get topics from description if available
   const topics = description
