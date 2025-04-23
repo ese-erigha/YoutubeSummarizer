@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { extractVideoId } from "@/lib/youtube";
 import { useToast } from "@/hooks/use-toast";
-import { SummaryResponse } from "@/lib/openai";
+import { fetchYouTubeTranscript } from "@/lib/youtubeApi";
+import { generateSummary } from "@/lib/openaiApi";
+import { 
+  getStoredVideos, 
+  getVideoById, 
+  saveVideo, 
+  updateVideoSummary, 
+  getRecentVideos,
+  clearAllVideos
+} from "@/lib/localStorage";
+import { Video } from "@shared/schema";
 
 import Header from "@/components/Header";
 import URLInputSection from "@/components/URLInputSection";
@@ -32,10 +40,6 @@ interface VideoDetails {
   thumbnailUrl?: string;
 }
 
-interface HistoryResponse {
-  videos: HistoryItem[];
-}
-
 const Home = () => {
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [currentVideoId, setCurrentVideoId] = useState<string | null>(null);
@@ -51,16 +55,35 @@ const Home = () => {
     type: "success",
   });
   
-  const queryClient = useQueryClient();
+  // State for video and summary data
+  const [isLoadingTranscript, setIsLoadingTranscript] = useState(false);
+  const [isLoadingSummary, setIsLoadingSummary] = useState(false);
+  const [videoDetails, setVideoDetails] = useState<VideoDetails | null>(null);
+  const [videoError, setVideoError] = useState<string | null>(null);
+  const [summary, setSummary] = useState<string | null>(null);
+  const [summaryError, setSummaryError] = useState<string | null>(null);
+  const [historyItems, setHistoryItems] = useState<HistoryItem[]>([]);
+  
   const { toast } = useToast();
 
-  // Get history from backend
-  const { data: historyData } = useQuery<HistoryResponse>({
-    queryKey: ['/api/history'],
-    enabled: true,
-  });
+  // Load history on mount
+  useEffect(() => {
+    loadHistory();
+  }, []);
   
-  const historyItems: HistoryItem[] = historyData?.videos || [];
+  // Load history from localStorage
+  const loadHistory = () => {
+    const videos = getRecentVideos();
+    const items: HistoryItem[] = videos.map(video => ({
+      id: video.id,
+      url: video.url,
+      title: video.title,
+      channelTitle: video.channelTitle,
+      processedAt: new Date(video.processedAt).toISOString(),
+      thumbnailUrl: video.thumbnailUrl || undefined
+    }));
+    setHistoryItems(items);
+  };
   
   // Global keyboard shortcut for clearing history
   useEffect(() => {
@@ -79,42 +102,111 @@ const Home = () => {
     };
   }, [isHistoryModalOpen, historyItems.length]);
 
-  // Extract transcript mutation
-  const extractTranscriptMutation = useMutation({
-    mutationFn: async (url: string) => {
-      const response = await apiRequest('POST', '/api/transcripts', { videoUrl: url });
-      return response.json();
-    },
-    onSuccess: (data) => {
-      setNotification({
-        message: "Transcript extracted successfully!",
-        visible: true,
-        type: "success",
-      });
-      const videoId = extractVideoId(youtubeUrl);
-      if (videoId) {
-        setCurrentVideoId(videoId);
+  // Get transcript text from segments
+  const getFullTranscript = (): string => {
+    if (!videoDetails?.transcript) return "";
+    return videoDetails.transcript.map(segment => segment.text).join(" ");
+  };
+
+  // Handle extract transcript button click
+  const handleExtractTranscript = async (url: string) => {
+    setYoutubeUrl(url);
+    setIsLoadingTranscript(true);
+    setVideoError(null);
+    setSummaryError(null);
+    setSummary(null);
+    
+    try {
+      // Check if we already have this video in storage
+      const videoId = extractVideoId(url);
+      if (!videoId) {
+        throw new Error("Invalid YouTube URL");
       }
-      queryClient.invalidateQueries({ queryKey: ['/api/history'] });
-    },
-    onError: (error) => {
+      
+      const existingVideo = getVideoById(videoId);
+      if (existingVideo) {
+        // Load from storage
+        setVideoDetails({
+          videoId: existingVideo.id,
+          title: existingVideo.title,
+          channelTitle: existingVideo.channelTitle,
+          duration: existingVideo.duration,
+          transcript: existingVideo.transcript,
+          thumbnailUrl: existingVideo.thumbnailUrl || undefined
+        });
+        
+        setSummary(existingVideo.summary);
+        setCurrentVideoId(videoId);
+        
+        setNotification({
+          message: "Loaded from history!",
+          visible: true,
+          type: "info",
+        });
+      } else {
+        // Fetch new transcript
+        const result = await fetchYouTubeTranscript(url);
+        
+        // Save to storage
+        const savedVideo = saveVideo({
+          id: result.videoId,
+          url,
+          title: result.title,
+          channelTitle: result.channelTitle,
+          duration: result.duration,
+          transcript: result.transcript,
+          thumbnailUrl: result.thumbnailUrl || null,
+          summary: null
+        });
+        
+        setVideoDetails({
+          videoId: savedVideo.id,
+          title: savedVideo.title,
+          channelTitle: savedVideo.channelTitle,
+          duration: savedVideo.duration,
+          transcript: savedVideo.transcript,
+          thumbnailUrl: savedVideo.thumbnailUrl || undefined
+        });
+        
+        setCurrentVideoId(result.videoId);
+        
+        setNotification({
+          message: "Transcript extracted successfully!",
+          visible: true,
+          type: "success",
+        });
+      }
+      
+      // Refresh history
+      loadHistory();
+    } catch (error) {
+      console.error("Error extracting transcript:", error);
+      setVideoError(error instanceof Error ? error.message : "Failed to extract transcript");
       toast({
         title: "Error",
-        description: `Failed to extract transcript: ${error.message}`,
+        description: `Failed to extract transcript: ${error instanceof Error ? error.message : "Unknown error"}`,
         variant: "destructive",
       });
-    },
-  });
+    } finally {
+      setIsLoadingTranscript(false);
+    }
+  };
 
-  // Generate summary mutation
-  const generateSummaryMutation = useMutation({
-    mutationFn: async (data: { videoId: string, transcript: string }) => {
-      const response = await apiRequest('POST', '/api/summaries', data);
-      return response.json();
-    },
-    onSuccess: (data) => {
-      // Set summary directly to avoid waiting for re-query
-      const summary = data.summary;
+  // Handle generate summary button click
+  const handleGenerateSummary = async () => {
+    if (!currentVideoId || !videoDetails) return;
+    
+    setIsLoadingSummary(true);
+    setSummaryError(null);
+    
+    try {
+      const transcript = getFullTranscript();
+      const generatedSummary = await generateSummary(transcript, videoDetails.title);
+      
+      // Save summary to storage
+      updateVideoSummary(currentVideoId, generatedSummary);
+      
+      setSummary(generatedSummary);
       
       setNotification({
         message: "Summary generated successfully!",
@@ -122,69 +214,25 @@ const Home = () => {
         type: "success",
       });
       
-      // Invalidate both history and summary queries
-      queryClient.invalidateQueries({ queryKey: ['/api/history'] });
-      queryClient.invalidateQueries({ queryKey: [`/api/summaries/${currentVideoId}`, currentVideoId] });
-      
-      // Try to set the summary data in the query cache directly
-      queryClient.setQueryData([`/api/summaries/${currentVideoId}`, currentVideoId], {
-        videoId: currentVideoId,
-        summary
-      });
-    },
-    onError: (error) => {
+      // Refresh history
+      loadHistory();
+    } catch (error) {
+      console.error("Error generating summary:", error);
+      setSummaryError(error instanceof Error ? error.message : "Failed to generate summary");
       toast({
         title: "Error",
-        description: `Failed to generate summary: ${error.message}`,
+        description: `Failed to generate summary: ${error instanceof Error ? error.message : "Unknown error"}`,
         variant: "destructive",
       });
-    },
-  });
-
-  // Query for video details
-  const { data: videoDetails, error: videoError } = useQuery<VideoDetails>({
-    queryKey: [`/api/videos/${currentVideoId}`, currentVideoId],
-    enabled: !!currentVideoId,
-  });
-
-  // Get transcript text from segments
-  const getFullTranscript = (): string => {
-    if (!videoDetails?.transcript) return "";
-    return videoDetails.transcript.map(segment => segment.text).join(" ");
-  };
-
-  // Query for summary
-  const { data: summaryData, error: summaryError } = useQuery<SummaryResponse>({
-    queryKey: [`/api/summaries/${currentVideoId}`, currentVideoId],
-    enabled: !!currentVideoId,
-  });
-
-  // Handle extract transcript button click
-  const handleExtractTranscript = async (url: string) => {
-    setYoutubeUrl(url);
-    extractTranscriptMutation.mutate(url);
-  };
-
-  // Handle generate summary button click
-  const handleGenerateSummary = () => {
-    if (currentVideoId && videoDetails) {
-      const transcript = getFullTranscript();
-      generateSummaryMutation.mutate({ 
-        videoId: currentVideoId, 
-        transcript 
-      });
+    } finally {
+      setIsLoadingSummary(false);
     }
   };
 
   // Handle regenerate summary button click
   const handleRegenerateSummary = () => {
-    if (currentVideoId && videoDetails) {
-      const transcript = getFullTranscript();
-      generateSummaryMutation.mutate({ 
-        videoId: currentVideoId, 
-        transcript 
-      });
-    }
+    // Reuse the same function as generate
+    handleGenerateSummary();
   };
 
   // Handle download transcript button click
@@ -214,19 +262,36 @@ const Home = () => {
 
   // Handle load history item
   const handleLoadHistory = (videoId: string) => {
-    const historyItem = historyItems.find(item => item.id === videoId);
-    if (historyItem) {
-      setYoutubeUrl(historyItem.url);
+    const video = getVideoById(videoId);
+    if (video) {
+      setYoutubeUrl(video.url);
       setCurrentVideoId(videoId);
+      
+      setVideoDetails({
+        videoId: video.id,
+        title: video.title,
+        channelTitle: video.channelTitle,
+        duration: video.duration,
+        transcript: video.transcript,
+        thumbnailUrl: video.thumbnailUrl || undefined
+      });
+      
+      setSummary(video.summary);
       setIsHistoryModalOpen(false);
     }
   };
 
   // Handle clear history
-  const handleClearHistory = async () => {
+  const handleClearHistory = () => {
     try {
-      await apiRequest('DELETE', '/api/history');
-      queryClient.invalidateQueries({ queryKey: ['/api/history'] });
+      clearAllVideos();
+      loadHistory();
+      
+      // Clear current video if displayed
+      setVideoDetails(null);
+      setSummary(null);
+      setCurrentVideoId(null);
+      
       setNotification({
         message: "History cleared!",
         visible: true,
@@ -248,7 +313,7 @@ const Home = () => {
       <main className="flex-grow container mx-auto px-4 py-6">
         <URLInputSection 
           onExtractTranscript={handleExtractTranscript}
-          isLoading={extractTranscriptMutation.isPending} 
+          isLoading={isLoadingTranscript} 
         />
         
         {/* Responsive grid layout that works well on all screen sizes */}
@@ -261,8 +326,8 @@ const Home = () => {
               channelTitle={videoDetails?.channelTitle || ""}
               duration={videoDetails?.duration || ""}
               transcript={videoDetails?.transcript || []}
-              isLoading={extractTranscriptMutation.isPending}
-              error={videoError ? (videoError as Error).message : null}
+              isLoading={isLoadingTranscript}
+              error={videoError || null}
               onDownloadTranscript={handleDownloadTranscript}
             />
           </div>
@@ -272,9 +337,9 @@ const Home = () => {
             <SummarySection
               transcript={getFullTranscript()}
               videoTitle={videoDetails?.title || ""}
-              summary={summaryData?.summary || null}
-              isSummaryLoading={generateSummaryMutation.isPending}
-              summaryError={summaryError ? (summaryError as Error).message : null}
+              summary={summary}
+              isSummaryLoading={isLoadingSummary}
+              summaryError={summaryError}
               onGenerateSummary={handleGenerateSummary}
               onRegenerateSummary={handleRegenerateSummary}
               hasTranscript={!!(videoDetails?.transcript && videoDetails.transcript.length > 0)}
