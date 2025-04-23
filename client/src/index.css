@@ -26,27 +26,27 @@
 }
 
 .dark {
-  /* Medium-inspired dark theme */
-  --background: 30 10% 10%; /* Warm dark background like Medium */
-  --foreground: 40 10% 90%; /* Off-white text for readability */
-  --muted: 30 8% 15%; /* Subtle muted background */
-  --muted-foreground: 30 6% 65%; /* Medium's muted text */
-  --popover: 30 10% 12%;
-  --popover-foreground: 40 10% 90%;
-  --card: 30 10% 12%; /* Slightly lighter than background */
-  --card-foreground: 40 10% 90%;
-  --border: 30 8% 20%; /* Medium's subtle borders */
-  --input: 30 8% 20%;
-  --primary: 265 70% 56%; /* Less saturated purple that fits with sepia theme */
+  /* Modern sleek dark theme */
+  --background: 222 47% 11%; /* Deep blue-tinted dark background */
+  --foreground: 213 31% 91%; /* Modern crisp white text */
+  --muted: 223 47% 14%; /* Slightly lighter background for muted areas */
+  --muted-foreground: 215 20% 65%; /* Subtle muted text */
+  --popover: 222 45% 13%;
+  --popover-foreground: 213 31% 91%;
+  --card: 222 47% 13%; /* Card background with slight blue tint */
+  --card-foreground: 213 31% 91%;
+  --border: 216 34% 17%; /* Subtle blue-tinted borders */
+  --input: 216 34% 17%;
+  --primary: 265 89% 58%; /* Vibrant purple for modern UI */
   --primary-foreground: 0 0% 100%;
-  --secondary: 30 8% 20%;
-  --secondary-foreground: 40 10% 90%;
-  --accent: 35 80% 40%; /* Medium uses accent colors sparingly */
-  --accent-foreground: 40 10% 95%;
-  --destructive: 0 60% 40%; /* Less harsh red for Medium style */
-  --destructive-foreground: 0 0% 98%;
-  --ring: 265 70% 56%;
-  --radius: 0.375rem; /* Medium uses slightly smaller radius */
+  --secondary: 222 47% 20%;
+  --secondary-foreground: 213 31% 91%;
+  --accent: 199 89% 48%; /* Bright azure blue accent */
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 84% 60%; /* Bright modern red */
+  --destructive-foreground: 210 40% 98%;
+  --ring: 265 89% 58%;
+  --radius: 0.5rem; /* Modern rounded corners */
 }
 
 @layer base {
@@ -58,31 +58,33 @@
     @apply font-sans antialiased bg-background text-foreground min-h-screen;
   }
   
-  /* Medium-style typography enhancements */
+  /* Modern dark theme enhancements */
   .dark body {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAASUSURBVGhD7ZpZqFVVHMb3NQ80WIPRPNBARIOWkQ9FBdFEBUFEQwSNkBQ0PESBUPhQERnRYDQYkQ2GEVRDTY2lRZPiXCo0DBZNGpZ+v83Z4eLcc+8+59x74333+cHHWWvf/e+1vv/aa6+19rmjRjrOOWeM+RL1VDnpDNX+FVHnx/AkzMfy2IOVXLRiDvM0HkKNVf/5eAPLdUb3YiNm8RA+hZfir1gO/1FKpbAMt+Kn+DkuvNPHH5JRx5/E1+GvsEw8uDEdxQasiIdwOVADd/AYn07FcLBnYfqpXXCv7cWbYjE8OA9txGPYjvtwCc5BG/U59nVTT1uE+/A4tkPdT6ELxY349R78FMdrv9sxbaSvvdZKLbVcADnO4U/4AXqdyjXYrjnnGXzN7Lbw2BVkOJl7GBdhObODRlsWTsbX8X+0oeVeq9s9ZENHWjf3LWQV7rUyS4QcpVZzLxH26EjrjBhf4znBchDsQWupx8swqBXkAvwETxetNvqJchrcg7X4EdZrx3OwrHr0ZsHyObQu09A8TQpK7AH0JdoH7aNzQ9WbHb9BmzDO15B75H20K0NfsH35Ae/Em+MZe0ytVZmjG/BDLPvqcg7FEcdJ7kS1Nn+JC/ArXMBctS4nrJJNZKvvxnb8HWWgdRqoHXnZLRpA3G6eQe+XoVOoGbUPxF5swRwKK3EjWpczXlv1w0A6G1TmduvLsZzqW6aznrv6b8RO7F8JDxzO3i7Oqz1YHYvh5n2N/V9DHVQ7crF7yvS4G9/AiZjDw2gXyiH/hS3KtThZ3yJxXDqUCXq/onq6X0uYJmdFNQvR3t2L7+AkPIh2qZxeJMN5XFStXI+dUKvmb8ZFUL1KnCQ+wdMhzKnDjXdYmxRW1FEZaYWbabejWNYiifOQrb4T34+1vRxTyvUqeK/m5FLoJqbxN2h+Eo7H5K/O4nXVygakPKUGmqXYKGvwMB7FO2Mxh4T1sJ6L8Z1YzMOeWkNFfyPYM7+hDdATDOTYD3dXc4KDuhxyvKC0f+1WYwfuUKlXuq6HrLcTYN3XYtI/ZE2eQu9dhsmj0Cp+jnalP0PsxnQ9yDGlVrSaNr5EG3I7Js+1J/qTjP2znvlYTdSLFpXC86id34PG9LaqGFV0v5b4Z4H32pPLUTuLZdNmJ6qgLm67n0fzK9HD/FJ8GNX0wjZxcTxXsWgLvd+5uAvX4xkslN3qDu3H3XgvKpg18A7s74M34BuoHgZuR7U4a+h9nqse8wrqeIi/R/V+HW3XdpysS1iP/ngPRhWx0zrSZQe0xEZ4gHQNsHG24EF8Hy3bQO+rVVHQu+qsuhY/+RHHvV3VivXjjY5zG+a9jtSxJYv3Y/IkbgFH/mq0EqXO0XJ4X4LE0rF4LyZpuOXDg/p40lCRXmbQq6qVOFHrtyeRXFGKx9FVRXXvP5eGgrVIK7K/W8eRbDNTuoY4rjksjC8Tcc+hK4ePlwcnP/+JbSENy1zcrvl/VLq6WW6VtTHZvYZXYj+r1sjDqFH/AohJtEKIwFarAAAAAElFTkSuQmCC");
-    background-repeat: repeat;
-    background-size: 100px 100px;
-    background-blend-mode: soft-light;
+    background-image: linear-gradient(to bottom right, 
+      hsl(222 47% 11%), 
+      hsl(225 47% 10%), 
+      hsl(230 47% 9%));
     background-attachment: fixed;
   }
 
-  /* Medium uses serif fonts for content */
+  /* Modern sans-serif fonts with better readability */
   .dark .font-content {
-    font-family: 'Charter', 'Georgia', serif;
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.01em;
   }
   
-  /* Medium-style links */
+  /* Modern link styling */
   .dark a:not(.btn):not([class*="bg-"]):not([role="menuitem"]) {
     color: hsl(var(--primary));
-    text-decoration-color: rgba(127, 127, 127, 0.3);
+    text-decoration-color: hsl(var(--primary) / 0.3);
+    text-decoration-thickness: 1px;
     text-underline-offset: 2px;
-    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+    transition: all 0.2s ease;
   }
   
   .dark a:not(.btn):not([class*="bg-"]):not([role="menuitem"]):hover {
     color: hsl(var(--accent));
-    text-decoration-color: hsl(var(--accent) / 0.5);
+    text-decoration-color: hsl(var(--accent));
   }
 }
 
@@ -91,32 +93,55 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* Medium-style card enhancements */
+/* Modern card enhancements with frosted glass effect */
 .dark .bg-card {
-  background-color: hsl(var(--card));
-  border-color: hsl(var(--border) / 0.7) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background-color: hsl(var(--card) / 0.7);
+  border-color: hsl(var(--border) / 0.1) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--radius);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.dark .bg-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* Modern typography for content */
 .dark .prose {
-  font-family: 'Charter', 'Georgia', serif;
-  line-height: 1.8;
-  color: hsl(var(--foreground) / 0.9);
+  font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.7;
+  color: hsl(var(--foreground) / 0.95);
 }
 
 .dark .prose h3 {
-  font-family: 'Charter', 'Georgia', serif;
-  font-weight: 700;
+  font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
   margin-top: 1.5em;
   color: hsl(var(--foreground));
+  letter-spacing: -0.02em;
 }
 
 .dark .prose p {
   margin-bottom: 1.2em;
+  font-size: 1.02em;
 }
 
 .dark .prose ul li {
   margin-bottom: 0.5em;
+}
+
+/* Add subtle visual details for UI elements */
+.dark button, 
+.dark .btn {
+  transition: all 0.15s ease;
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.3);
 }
 
 /* Custom animation for notification */
@@ -148,4 +173,47 @@
 
 .notification-exit {
   animation: slide-out-right 0.3s forwards;
+}
+
+/* Modern scrollbar styling */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: hsl(var(--background) / 0.2);
+  border-radius: 8px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.5);
+}
+
+/* Add subtle animations */
+.dark .bg-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modern focus styles */
+.dark *:focus-visible {
+  outline: 2px solid hsl(var(--primary) / 0.6);
+  outline-offset: 2px;
 }
