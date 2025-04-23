@@ -103,7 +103,7 @@ const Home = () => {
 
   // Query for video details
   const { data: videoDetails, error: videoError } = useQuery<VideoDetails>({
-    queryKey: [`/api/videos/${currentVideoId}`],
+    queryKey: [`/api/videos/${currentVideoId}`, currentVideoId],
     enabled: !!currentVideoId,
   });
 
@@ -115,7 +115,7 @@ const Home = () => {
 
   // Query for summary
   const { data: summaryData, error: summaryError } = useQuery<SummaryResponse>({
-    queryKey: [`/api/summaries/${currentVideoId}`],
+    queryKey: [`/api/summaries/${currentVideoId}`, currentVideoId],
     enabled: !!currentVideoId,
   });
 
