@@ -24,8 +24,11 @@ export function getVideoById(id: string): Video | undefined {
 export function saveVideo(video: InsertVideo): Video {
   const videos = getStoredVideos();
   
+  // Ensure summary is properly typed as string | null to match Video type
   const newVideo: Video = {
     ...video,
+    summary: video.summary ?? null, // Convert undefined to null if needed
+    thumbnailUrl: video.thumbnailUrl ?? null, // Convert undefined to null if needed
     processedAt: new Date(),
   };
   
