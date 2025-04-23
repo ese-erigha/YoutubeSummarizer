@@ -121,7 +121,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
             </Button>
           </div>
           <div className="mt-3 text-sm">
-            <div className="p-2 bg-primary/10 rounded-md text-primary border border-primary/20">
+            <div className="p-2 bg-primary/20 dark:bg-primary/30 rounded-md text-primary dark:text-primary-foreground border border-primary/30">
               <p className="flex items-start">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 mt-0.5 flex-shrink-0">
                   <circle cx="12" cy="12" r="10"/>
@@ -129,14 +129,14 @@ export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSect
                   <path d="M12 8v4"/>
                 </svg>
                 <span>
-                  <strong>Try an example:</strong> <a 
+                  <strong className="dark:text-white">Try an example:</strong> <a 
                     href="#" 
                     onClick={(e) => {
                       e.preventDefault();
                       setUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
                       setIsValid(true);
                     }}
-                    className="text-primary underline hover:text-primary/80"
+                    className="text-primary dark:text-primary-foreground underline hover:text-primary/80 hover:dark:text-white"
                   >
                     Rick Astley - Never Gonna Give You Up
                   </a>

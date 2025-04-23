@@ -78,8 +78,8 @@ const TranscriptSection = ({
               Enter a YouTube URL in the field above and click "Extract Transcript" to see the video transcript here.
             </p>
             
-            <div className="bg-primary/10 p-4 rounded-md text-sm text-primary border border-primary/20 max-w-md">
-              <p className="font-medium mb-2">Pro tips:</p>
+            <div className="bg-primary/20 dark:bg-primary/30 p-4 rounded-md text-sm text-primary dark:text-primary-foreground border border-primary/30 max-w-md">
+              <p className="font-medium mb-2 dark:text-white">Pro tips:</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>Make sure the video has captions/subtitles available for best results</li>
                 <li>Official YouTube channels often have better caption quality</li>
@@ -138,7 +138,7 @@ const TranscriptSection = ({
             <div className="mb-4">
               <h3 className="font-medium text-lg text-foreground">{videoTitle}</h3>
               <p className="text-sm text-muted-foreground">{channelTitle} • {duration}</p>
-              <div className="mt-2 text-xs text-primary bg-primary/10 p-2 rounded-md border border-primary/20">
+              <div className="mt-2 text-xs text-primary dark:text-primary-foreground bg-primary/20 dark:bg-primary/30 p-2 rounded-md border border-primary/30">
                 <p className="flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
                     <circle cx="12" cy="12" r="10"/>
