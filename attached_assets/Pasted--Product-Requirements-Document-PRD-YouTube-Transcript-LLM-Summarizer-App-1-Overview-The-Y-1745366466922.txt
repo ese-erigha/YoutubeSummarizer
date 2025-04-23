@@ -1,0 +1,183 @@
+
+
+# Product Requirements Document (PRD): YouTube Transcript LLM Summarizer App
+
+## 1. Overview
+The YouTube Transcript LLM Summarizer App is a web-based application built with a React, Vite, and TypeScript frontend, and a FastAPI backend with a SQLite database. It allows users to input a YouTube video URL, extract and display the video’s transcript with timestamps, and generate a summary of the transcript using a large language model (LLM). The app integrates with a third-party API (e.g., YouTube Data API or Superduper API) for transcript extraction and an LLM API (e.g., OpenAI, Grok) for summarization. This PRD outlines the features, user flows, and technical requirements to guide the AI coding agent in development.
+
+## 2. Objectives
+- Provide an intuitive interface for users to input YouTube URLs and view transcripts.
+- Display transcripts with clickable timestamps linking to the corresponding video moment.
+- Generate concise, accurate summaries of transcripts using an LLM.
+- Ensure fast, reliable performance with a modern frontend and backend architecture.
+- Prioritize accessibility and responsive design for diverse devices.
+
+## 3. Technical Stack
+- **Frontend**: React, Vite, TypeScript, Tailwind CSS (via CDN).
+- **Backend**: FastAPI, Python, TypeScript (via Pyright for type checking), SQLite database.
+- **Third-Party APIs**:
+  - YouTube Data API or Superduper API for transcript extraction.
+  - LLM API (e.g., OpenAI GPT, Grok via xAI API) for summarization.
+- **Hosting**: Single-page HTML application deployable on static hosting (e.g., Vercel, Netlify); backend deployable on a Python-compatible server (e.g., Heroku, Render).
+- **Constraints**: No `<form>` onSubmit due to sandbox restrictions; use button clicks for submissions.
+
+## 4. Features and User Flows
+
+### 4.1 YouTube URL Input
+**Description**: Users can input a YouTube video URL to extract its transcript.  
+**Priority**: High  
+**Requirements**:
+- Input field for YouTube video URL.
+- Validation to ensure valid YouTube URL format (e.g., `https://www.youtube.com/watch?v=xyz`).
+- “Extract Transcript” button to initiate transcript retrieval.
+- Error handling for invalid URLs or unavailable transcripts.
+- Accessible with ARIA labels.
+
+**User Flow**:
+1. User navigates to the app’s homepage.
+2. User enters a YouTube URL in the input field.
+3. User clicks “Extract Transcript.”
+4. A loading spinner appears while the backend fetches the transcript.
+5. On success, the transcript is displayed (Feature 4.2).
+6. On error (e.g., invalid URL, no transcript available), an error message is shown.
+
+**Technical Notes**:
+- Backend: FastAPI endpoint to validate URL and call transcript API.
+- Frontend: Use React state for URL input and React Query for API calls.
+- TypeScript interfaces for URL input and error states.
+- Validate URL using a regex pattern.
+- Style input field and button with Tailwind CSS.
+
+### 4.2 Transcript Display
+**Description**: Display the extracted transcript with timestamps, where each timestamp links to the YouTube video at that moment.  
+**Priority**: High  
+**Requirements**:
+- Read-only textarea or structured list showing transcript segments with timestamps.
+- Timestamps formatted as `MM:SS` (e.g., `01:23`) and clickable.
+- Clicking a timestamp opens a new browser tab with the YouTube video playing at that time (e.g., `https://www.youtube.com/watch?v=xyz&t=83`).
+- Scrollable display for long transcripts.
+- Accessible with ARIA labels and keyboard navigation.
+- Option to download transcript as a text file.
+
+**User Flow**:
+1. After extracting the transcript, user sees a list or textarea with transcript segments and timestamps.
+2. User scrolls through the transcript to review content.
+3. User clicks a timestamp (e.g., `01:23`).
+4. A new tab opens with the YouTube video playing at the specified time.
+5. User clicks “Download Transcript” to save the transcript as a `.txt` file.
+
+**Technical Notes**:
+- Backend: Store transcript data (text, timestamps) in SQLite for caching.
+- Frontend: Use React components to render transcript segments as a list or formatted textarea.
+- TypeScript interfaces for transcript data (`{ text: string, timestamp: number }[]`).
+- Generate YouTube URLs with `&t=` parameter for timestamps.
+- Use `window.open` for new tab navigation.
+- Style transcript display with Tailwind CSS for readability and responsiveness.
+
+### 4.3 LLM Summary Generation
+**Description**: Users can generate a summary of the transcript using an LLM via a button click.  
+**Priority**: High  
+**Requirements**:
+- “Generate Summary” button to trigger LLM summarization.
+- Loading spinner during LLM API processing.
+- Display summary in a separate read-only textarea or card.
+- Summary length: ~100-200 words, concise and capturing key points.
+- Error handling for LLM API failures (e.g., rate limits, network issues).
+- Option to regenerate summary if unsatisfied.
+- Accessible with ARIA labels.
+
+**User Flow**:
+1. After transcript is displayed, user clicks “Generate Summary.”
+2. A loading spinner appears while the backend processes the LLM request.
+3. On success, a summary appears below or beside the transcript.
+4. User can click “Regenerate Summary” to request a new summary.
+5. On error, an error message is shown (e.g., “Failed to generate summary. Try again.”).
+
+**Technical Notes**:
+- Backend: FastAPI endpoint to call LLM API with transcript text.
+- Frontend: Use React Query for API calls and state management.
+- TypeScript interfaces for summary response data.
+- Pass transcript as a single string to LLM with a prompt (e.g., “Summarize this transcript in 100-200 words.”).
+- Style summary display with Tailwind CSS for clarity.
+
+### 4.4 History Log
+**Description**: Users can view a history of processed YouTube URLs and their summaries.  
+**Priority**: Low  
+**Requirements**:
+- List of up to 10 recent videos (URL, title, date processed).
+- Option to revisit transcript and summary for a video.
+- Clear history button.
+- Store history in local storage (frontend) and metadata in SQLite (backend).
+- Accessible with ARIA labels.
+
+**User Flow**:
+1. User clicks a “History” tab or button.
+2. A list shows recent videos (e.g., “Video: youtube.com/watch?v=xyz, Processed: 2025-04-18”).
+3. User clicks an item to view its transcript and summary.
+4. User clicks “Clear History” to reset the log.
+
+**Technical Notes**:
+- Backend: FastAPI endpoint to store and retrieve video metadata.
+- Frontend: Use local storage for quick access and React components for history list.
+- TypeScript interfaces for history data.
+- Style with Tailwind CSS for a clean, responsive layout.
+
+## 5. Non-Functional Requirements
+- **Performance**: Page load time < 2 seconds; transcript extraction < 5 seconds; summary generation < 10 seconds.
+- **Accessibility**: WCAG 2.1 AA compliance (e.g., ARIA labels, keyboard navigation).
+- **Responsive Design**: Support mobile, tablet, and desktop layouts.
+- **Security**: Sanitize URL inputs to prevent injection attacks; use HTTPS for API calls; store API keys securely.
+- **Error Handling**: Graceful handling of API failures, invalid URLs, and unavailable transcripts.
+- **Data Retention**: Store video metadata and transcripts in SQLite for 30 days; local storage history persists until cleared.
+
+## 6. User Interface Mockup
+- **Homepage Layout**:
+  - Header: App title, navigation (Home, History).
+  - Main Section: URL input field, “Extract Transcript” button.
+  - Transcript Section: Scrollable transcript with clickable timestamps, “Download Transcript” button.
+  - Summary Section: “Generate Summary” button, summary display, “Regenerate Summary” button.
+  - History Section: Collapsible list of past videos.
+- **Styling**: Use Tailwind CSS for a modern, minimalistic design with a purple and white color scheme.
+
+## 7. API Integration
+- **Third-Party APIs**:
+  - YouTube Data API or Superduper API for transcript extraction.
+  - LLM API (e.g., OpenAI, xAI Grok via https://x.ai/api) for summarization.
+- **Backend Endpoints**:
+  - `POST /transcripts`:
+    - Input: `{ videoUrl: string }`
+    - Output: `{ transcript: [{ text: string, timestamp: number }], videoTitle: string }`
+  - `POST /summaries`:
+    - Input: `{ transcript: string }`
+    - Output: `{ summary: string, error?: string }`
+  - `GET /history`:
+    - Output: `{ videos: [{ url: string, title: string, processedAt: string }] }`
+  - `DELETE /history`:
+    - Output: `{ success: boolean }`
+- **Database Schema (SQLite)**:
+  - Table: `videos`
+    - Columns: `id` (string, primary key), `url` (string), `title` (string), `transcript` (json), `summary` (text), `processed_at` (datetime).
+- **Authentication**: Store API keys securely in environment variables.
+
+## 8. Development Guidelines
+- Use TypeScript (Pyright for Python) for type safety across frontend and backend.
+- Follow React best practices (e.g., functional components, hooks).
+- Use Vite for fast development and optimized builds.
+- Avoid `<form>` onSubmit; use button clicks with event handlers.
+- Use `className` for JSX attributes.
+- Include ESLint (frontend) and Pylint (backend) with Prettier for code quality.
+- Write unit tests for critical components (e.g., URL validation, transcript parsing, LLM integration).
+
+## 9. Future Enhancements
+- Support for multiple languages in transcripts and summaries.
+- Real-time transcript extraction progress indicator.
+- User authentication for cloud-based history storage.
+- Custom summary length or style options (e.g., bullet points, detailed).
+- Integration with note-taking apps (e.g., Notion, Evernote).
+
+## 10. Deliverables
+- Single-page HTML application (React, Vite, TypeScript).
+- FastAPI backend with SQLite database and TypeScript (Pyright).
+- Documentation for setup, deployment, and API usage.
+- Unit tests for key features.
+
