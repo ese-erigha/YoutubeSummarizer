@@ -1,5 +1,86 @@
 import { Button } from "@/components/ui/button";
 
+/**
+ * Format summary text to properly display introduction, bullet points, and conclusion
+ * based on the new summary structure format
+ */
+function formatSummary(summaryText: string): string {
+  // Split the summary into sections based on line breaks
+  const lines = summaryText.split('\n').filter(line => line.trim().length > 0);
+  
+  let html = '';
+  let inBulletList = false;
+  let bulletListContent = '';
+  
+  // Process each line 
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    
+    // Detect bullet points (could start with •, -, *, or numbers like "1.", "2.")
+    const isBulletPoint = Boolean(
+      line.match(/^[•\-*]|^\d+\.\s/) || 
+      line.includes('* ') || 
+      line.startsWith('- ') ||
+      line.match(/^\[\d+\]/)
+    );
+    
+    if (isBulletPoint) {
+      // If this is our first bullet point, start the list
+      if (!inBulletList) {
+        // If we had content before, close it properly
+        if (html.length > 0) {
+          html = `<div class="mb-4 leading-relaxed">${html}</div>`;
+        }
+        inBulletList = true;
+        bulletListContent = '';
+      }
+      
+      // Format the bullet point with proper HTML
+      // Remove bullet marker and trim
+      const bulletContent = line.replace(/^[•\-*]|^\d+\.\s|^\[\d+\]|^\s*-\s*|\*\s*/, '').trim();
+      bulletListContent += `<li class="mb-2">${bulletContent}</li>`;
+    } 
+    else {
+      // If we were in a bullet list and now we're not, close the list
+      if (inBulletList) {
+        html += `<ul class="list-disc pl-5 space-y-1 my-4 ml-2 border-l-2 border-primary/20 pl-6 py-2">
+                  ${bulletListContent}
+                </ul>`;
+        inBulletList = false;
+        bulletListContent = '';
+        
+        // This line is likely a conclusion, style it differently
+        html += `<div class="mt-4 text-foreground font-medium">${line}</div>`;
+      } 
+      // Normal paragraph text (introduction or other sections)
+      else {
+        // If it's a heading (starts with "Main Topic" or similar)
+        if (/^(main|key|important|conclusion)/i.test(line)) {
+          html += `<h3 class="text-lg font-semibold mt-4 mb-2 text-foreground">${line}</h3>`;
+        } 
+        // Otherwise it's a regular paragraph
+        else {
+          if (html.length > 0) html += ' '; // Add space between paragraphs in the same section
+          html += line;
+        }
+      }
+    }
+  }
+  
+  // Close any open bullet list at the end
+  if (inBulletList) {
+    html += `<ul class="list-disc pl-5 space-y-1 my-4 ml-2 border-l-2 border-primary/20 pl-6 py-2">
+              ${bulletListContent}
+            </ul>`;
+  } 
+  // If we never had a bullet list, wrap the content in a div
+  else if (!html.startsWith('<div')) {
+    html = `<div class="mb-4 leading-relaxed text-foreground">${html}</div>`;
+  }
+  
+  return html;
+}
+
 interface SummarySectionProps {
   transcript: string;
   videoTitle: string;
@@ -169,23 +250,7 @@ const SummarySection = ({
           <div className="flex-grow overflow-y-auto bg-muted/30 p-4 sm:p-6 rounded-md font-content shadow-inner border border-border">
             <div className="prose prose-blue max-w-none">
               <div dangerouslySetInnerHTML={{ 
-                __html: summary
-                  .replace(/\n\n/g, '<br/><br/>')
-                  .replace(/\n/g, '<br/>')
-                  .replace(/^(.*?)(?=<br\/>|$)/gm, '<p class="mb-4 text-foreground">$1</p>')
-                  .replace(/• (.*?)(?=<br\/>|$)/g, '<li class="text-foreground">$1</li>')
-                  .replace(/<li class="text-foreground">/g, '<ul class="list-disc pl-5 space-y-1 my-3"><li class="text-foreground">')
-                  .replace(/<\/li><br\/><br\/>/g, '</li></ul>')
-                  .replace(/<\/li><br\/>/g, '</li></ul>')
-                  .replace(/<p class="mb-4 text-foreground"><\/p>/g, '')
-                  .replace(/(?:<br\/>)+/g, '')
-                  .replace(/<p class="mb-4 text-foreground">(.*?)<\/p>/g, (match, content) => {
-                    if (content.includes(':') && content.split(':')[0].length < 30) {
-                      const [title, text] = content.split(':');
-                      return `<h3 class="text-lg font-semibold mt-4 mb-2 text-foreground">${title}:</h3><p class="mb-3 text-foreground">${text}</p>`;
-                    }
-                    return match;
-                  })
+                __html: formatSummary(summary)
               }} />
             </div>
           </div>
