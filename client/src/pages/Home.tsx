@@ -23,6 +23,7 @@ const Home = () => {
   // Get all the state and handler functions from our custom hook
   const {
     youtubeUrl,
+    setYoutubeUrl, // Add setYoutubeUrl to the destructuring
     videoDetails,
     isLoadingTranscript,
     videoError,
@@ -181,6 +182,7 @@ const Home = () => {
           <AlertDialogFooter>
             <AlertDialogAction onClick={() => {
               setIsDurationAlertOpen(false);
+              // Clear the input URL using the setter from our hook
               setYoutubeUrl("");
             }}>
               I understand
