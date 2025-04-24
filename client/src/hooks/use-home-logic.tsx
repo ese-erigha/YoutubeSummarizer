@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { extractVideoId } from "@/lib/youtube";
 import { useToast } from "@/hooks/use-toast";
 import { fetchYouTubeTranscript, fetchYouTubeVideoDetails } from "@/lib/youtubeApi";
-import { generateSummary } from "@/lib/openaiApi";
+import { generateSummary } from "@/lib/api"; // Updated to use our API client
 import { 
   getStoredVideos, 
   getVideoById, 

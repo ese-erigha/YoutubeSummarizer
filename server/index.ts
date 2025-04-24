@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { dirname, resolve, join } from 'path';
 import { YoutubeTranscript } from 'youtube-transcript';
 import bodyParser from 'body-parser';
+import OpenAI from 'openai';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,6 +18,62 @@ const PORT = 5000;
 
 // Add middleware
 app.use(bodyParser.json());
+
+// Initialize OpenAI client
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const openai = new OpenAI({ 
+  apiKey: OPENAI_API_KEY
+});
+
+// Function to build the prompt for OpenAI API
+function buildSummaryPrompt(transcript: string, title: string): string {
+  return `Create a detailed summary of the YouTube video transcript with title: "${title}". 
+Please structure the summary as follows:
+1. Main Topic/Theme
+2. Key Points
+3. Important Details
+4. Conclusions/Takeaways
+
+TRANSCRIPT:
+${transcript}`;
+}
+
+// Function to generate a summary using OpenAI
+async function generateSummary(transcript: string, title: string): Promise<string> {
+  try {
+    // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an expert video summarizer. Analyze the transcript of a YouTube video and provide a detailed summary following the requested structure. Be specific and extract the most important information, organizing it into the Main Topic/Theme, Key Points, Important Details, and Conclusions/Takeaways sections.",
+        },
+        {
+          role: "user",
+          content: buildSummaryPrompt(transcript, title),
+        },
+      ],
+      max_tokens: 800,
+      temperature: 0.5, // Lower temperature for more focused summaries
+    });
+
+    const summary = response.choices[0].message.content || "No summary could be generated.";
+    return summary;
+  } catch (error: any) {
+    console.error('Error generating summary with OpenAI:', error);
+    
+    // Provide more specific error information
+    if (error.response && error.response.status === 401) {
+      throw new Error('Invalid OpenAI API key. Please check your API key and try again.');
+    } else if (error.response && error.response.status === 429) {
+      throw new Error('OpenAI rate limit exceeded. Please try again later.');
+    }
+    
+    throw new Error('Failed to generate summary with AI: ' + (error.message || 'Unknown error'));
+  }
+}
 
 console.log('Starting TubeSummarize app using Express to serve the frontend...');
 
@@ -80,6 +137,37 @@ async function startServer() {
         console.error('Error fetching transcript:', error);
         return res.status(500).json({ 
           error: 'Failed to fetch transcript',
+          details: error instanceof Error ? error.message : String(error)
+        });
+      }
+    });
+    
+    // API endpoint for generating summaries
+    app.post('/api/summary', async (req, res) => {
+      try {
+        const { transcript, title } = req.body;
+        
+        if (!transcript || !title) {
+          return res.status(400).json({ 
+            error: 'Transcript and title are required' 
+          });
+        }
+        
+        console.log(`Server generating summary for video: ${title}`);
+        
+        // Join transcript segments into a single string
+        const fullTranscript = Array.isArray(transcript) 
+          ? transcript.map(segment => segment.text).join(' ') 
+          : transcript;
+        
+        // Generate summary
+        const summary = await generateSummary(fullTranscript, title);
+        
+        return res.json({ summary });
+      } catch (error) {
+        console.error('Error generating summary:', error);
+        return res.status(500).json({ 
+          error: 'Failed to generate summary',
           details: error instanceof Error ? error.message : String(error)
         });
       }
