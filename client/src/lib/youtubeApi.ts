@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { TranscriptSegment } from '@shared/schema';
 import { extractVideoId, formatTimestamp } from './youtube';
+import { YoutubeTranscript } from 'youtube-transcript';
 
 // Make sure these keys are accessible for the frontend-only app
 const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
@@ -151,30 +152,57 @@ export async function fetchYouTubeTranscript(videoUrl: string): Promise<{
     // Get video details from YouTube API
     const videoDetails = await fetchYouTubeVideoDetails(videoId);
     
-    // Since YouTube API doesn't directly provide transcripts, and our external API is failing,
-    // we'll generate one based on video metadata
-    console.log('Generating transcript based on video metadata');
-    const videoDurationInSeconds = parseDurationToSeconds(videoDetails.duration);
+    console.log('Fetching transcript with youtube-transcript package');
     
-    // Get video description from YouTube API
-    const videoInfoResponse = await axios.get(
-      `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=snippet&key=${YOUTUBE_API_KEY}`
-    );
-    
-    const description = videoInfoResponse.data.items?.[0]?.snippet?.description || '';
-    
-    // Generate segments based on video duration and metadata
-    const segmentCount = Math.max(20, Math.ceil(videoDurationInSeconds / 15));
-    const transcript = generateTranscriptSegments(videoId, videoDurationInSeconds, segmentCount, description);
-    
-    return {
-      videoId,
-      title: videoDetails.title,
-      channelTitle: videoDetails.channelTitle,
-      duration: videoDetails.duration,
-      transcript,
-      thumbnailUrl: videoDetails.thumbnailUrl,
-    };
+    try {
+      // Try to fetch the actual transcript using youtube-transcript package
+      const transcriptItems = await YoutubeTranscript.fetchTranscript(videoId);
+      
+      if (transcriptItems && transcriptItems.length > 0) {
+        // Convert to our TranscriptSegment format
+        const transcript: TranscriptSegment[] = transcriptItems.map(item => ({
+          text: item.text,
+          timestamp: item.offset / 1000 // offset is in milliseconds, we want seconds
+        }));
+        
+        return {
+          videoId,
+          title: videoDetails.title,
+          channelTitle: videoDetails.channelTitle,
+          duration: videoDetails.duration,
+          transcript,
+          thumbnailUrl: videoDetails.thumbnailUrl,
+        };
+      } else {
+        throw new Error('No transcript available');
+      }
+    } catch (transcriptError) {
+      console.warn('Failed to fetch transcript with youtube-transcript, falling back to generated transcript', transcriptError);
+      
+      // Fall back to generating a transcript from video metadata
+      console.log('Generating transcript based on video metadata (fallback)');
+      const videoDurationInSeconds = parseDurationToSeconds(videoDetails.duration);
+      
+      // Get video description from YouTube API
+      const videoInfoResponse = await axios.get(
+        `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=snippet&key=${YOUTUBE_API_KEY}`
+      );
+      
+      const description = videoInfoResponse.data.items?.[0]?.snippet?.description || '';
+      
+      // Generate segments based on video duration and metadata
+      const segmentCount = Math.max(20, Math.ceil(videoDurationInSeconds / 15));
+      const transcript = generateTranscriptSegments(videoId, videoDurationInSeconds, segmentCount, description);
+      
+      return {
+        videoId,
+        title: videoDetails.title,
+        channelTitle: videoDetails.channelTitle,
+        duration: videoDetails.duration,
+        transcript,
+        thumbnailUrl: videoDetails.thumbnailUrl,
+      };
+    }
   } catch (error) {
     console.error('Error fetching YouTube transcript:', error);
     throw new Error(`Failed to fetch transcript: ${error instanceof Error ? error.message : 'Unknown error'}`);
