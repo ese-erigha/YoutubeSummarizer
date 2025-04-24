@@ -51,7 +51,7 @@ async function generateSummary(
         {
           role: "system",
           content:
-            "You are an expert video summarizer. Create concise, easy-to-understand summaries of YouTube video transcripts. Follow the requested format exactly: a brief introduction, 3-5 bullet points with the main topics/points, and a short conclusion when appropriate. Keep the summary between 100-300 words total.",
+            "You are an expert video summarizer. Create concise, easy-to-understand summaries of YouTube video transcripts. Follow the requested format exactly: a brief introduction, 3-5 bullet points with the main topics/points, and a short conclusion when appropriate. Keep the summary between 150-300 words total.",
         },
         {
           role: "user",
