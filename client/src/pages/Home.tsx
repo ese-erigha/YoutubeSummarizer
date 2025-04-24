@@ -443,11 +443,11 @@ const Home = () => {
             <AlertDialogTitle>Video Duration Limit Exceeded</AlertDialogTitle>
             <AlertDialogDescription>
               <div className="space-y-4">
-                <p>
+                <div className="mb-4">
                   We only support processing YouTube videos with a duration of 30 minutes or less.
-                </p>
-                <div className="bg-amber-50 border border-amber-200 p-3 rounded-md text-amber-800 text-sm">
-                  <p className="flex items-start">
+                </div>
+                <div className="bg-amber-50 border border-amber-200 p-3 rounded-md text-amber-800 text-sm mb-4">
+                  <div className="flex items-start">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 mt-0.5 flex-shrink-0">
                       <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
                       <line x1="12" x2="12" y1="9" y2="13"/>
@@ -457,11 +457,11 @@ const Home = () => {
                       Longer videos require more processing time and resources,
                       and may result in less accurate summaries.
                     </span>
-                  </p>
+                  </div>
                 </div>
-                <p>
+                <div>
                   Please try a shorter video, or consider using a specific timestamp URL to focus on a particular section of the video.
-                </p>
+                </div>
               </div>
             </AlertDialogDescription>
           </AlertDialogHeader>

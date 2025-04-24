@@ -61,9 +61,17 @@ export const URLInputSection = ({ onExtractTranscript, isLoading, inputUrl = "" 
       <h2 id="url-input-heading" className="text-xl font-bold mb-2 text-foreground">
         Extract Video Transcript
       </h2>
-      <p className="mb-4 text-muted-foreground">
+      <p className="mb-2 text-muted-foreground">
         Enter a YouTube video URL below to extract its transcript and generate an AI-powered summary.
       </p>
+      <div className="mb-4 text-xs flex items-center bg-accent/50 p-2 rounded-md border border-border">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5 flex-shrink-0 text-primary">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 16v.01"/>
+          <path d="M12 8v4"/>
+        </svg>
+        <span className="text-muted-foreground">Only videos with a duration of <strong className="text-foreground">30 minutes or less</strong> are supported.</span>
+      </div>
       <div className="bg-background p-6 rounded-lg shadow-md border border-border">
         <div className="mb-4">
           <div className="flex flex-col sm:flex-row gap-4">
