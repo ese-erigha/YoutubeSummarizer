@@ -177,7 +177,9 @@ export async function fetchYouTubeTranscript(videoUrl: string): Promise<{
         throw new Error('No transcript available');
       }
     } catch (transcriptError) {
-      console.warn('Failed to fetch transcript with youtube-transcript, falling back to generated transcript', transcriptError);
+      console.warn('Failed to fetch transcript with youtube-transcript, falling back to generated transcript', 
+        transcriptError instanceof Error ? transcriptError.message : transcriptError);
+      console.error('Transcript error details:', transcriptError);
       
       // Fall back to generating a transcript from video metadata
       console.log('Generating transcript based on video metadata (fallback)');
