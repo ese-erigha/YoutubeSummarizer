@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { isValidYoutubeUrl } from "@/lib/youtube";
@@ -6,11 +6,17 @@ import { isValidYoutubeUrl } from "@/lib/youtube";
 interface URLInputSectionProps {
   onExtractTranscript: (url: string) => void;
   isLoading: boolean;
+  inputUrl?: string;
 }
 
-export const URLInputSection = ({ onExtractTranscript, isLoading }: URLInputSectionProps) => {
-  const [url, setUrl] = useState("");
+export const URLInputSection = ({ onExtractTranscript, isLoading, inputUrl = "" }: URLInputSectionProps) => {
+  const [url, setUrl] = useState(inputUrl);
   const [isValid, setIsValid] = useState(true);
+  
+  // Update local state when the parent component changes the URL
+  useEffect(() => {
+    setUrl(inputUrl);
+  }, [inputUrl]);
 
   const handleUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newUrl = e.target.value;

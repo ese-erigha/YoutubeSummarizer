@@ -358,7 +358,8 @@ const Home = () => {
       <main className="flex-grow container mx-auto px-4 py-6">
         <URLInputSection 
           onExtractTranscript={handleExtractTranscript}
-          isLoading={isLoadingTranscript} 
+          isLoading={isLoadingTranscript}
+          inputUrl={youtubeUrl}
         />
         
         {/* Responsive grid layout that works well on all screen sizes */}
@@ -465,7 +466,10 @@ const Home = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setIsDurationAlertOpen(false)}>
+            <AlertDialogAction onClick={() => {
+              setIsDurationAlertOpen(false);
+              setYoutubeUrl("");
+            }}>
               I understand
             </AlertDialogAction>
           </AlertDialogFooter>
