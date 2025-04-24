@@ -27,12 +27,12 @@ const openai = new OpenAI({
 
 // Function to build the prompt for OpenAI API
 function buildSummaryPrompt(transcript: string, title: string): string {
-  return `Create a detailed summary of the YouTube video transcript with title: "${title}". 
-Please structure the summary as follows:
-1. Main Topic/Theme
-2. Key Points
-3. Important Details
-4. Conclusions/Takeaways
+  return `Summarize the following YouTube video transcript with title: "${title}". 
+Keep the summary concise (100-200 words) and easy to understand.
+Structure the response as:
+1. A brief introduction paragraph (2-3 sentences)
+2. 3-5 bullet points with the main topics/points from the video
+3. A brief conclusion if appropriate (1 sentence)
 
 TRANSCRIPT:
 ${transcript}`;
@@ -48,7 +48,7 @@ async function generateSummary(transcript: string, title: string): Promise<strin
         {
           role: "system",
           content:
-            "You are an expert video summarizer. Analyze the transcript of a YouTube video and provide a detailed summary following the requested structure. Be specific and extract the most important information, organizing it into the Main Topic/Theme, Key Points, Important Details, and Conclusions/Takeaways sections.",
+            "You are an expert video summarizer. Create concise, easy-to-understand summaries of YouTube video transcripts. Follow the requested format exactly: a brief introduction, 3-5 bullet points with the main topics/points, and a short conclusion when appropriate. Keep the summary between 100-200 words total.",
         },
         {
           role: "user",
