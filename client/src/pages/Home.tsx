@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { extractVideoId } from "@/lib/youtube";
 import { useToast } from "@/hooks/use-toast";
-import { fetchYouTubeTranscript } from "@/lib/youtubeApi";
+import { fetchYouTubeTranscript, fetchYouTubeVideoDetails } from "@/lib/youtubeApi";
 import { generateSummary } from "@/lib/openaiApi";
 import { 
   getStoredVideos, 
@@ -45,6 +45,8 @@ const Home = () => {
   const [currentVideoId, setCurrentVideoId] = useState<string | null>(null);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isConfirmClearOpen, setIsConfirmClearOpen] = useState(false);
+  const [isDurationAlertOpen, setIsDurationAlertOpen] = useState(false);
+  const [longVideoUrl, setLongVideoUrl] = useState("");
   const [notification, setNotification] = useState<{
     message: string;
     visible: boolean;
@@ -108,6 +110,26 @@ const Home = () => {
     return videoDetails.transcript.map(segment => segment.text).join(" ");
   };
 
+  // Helper function to check if a video is within the duration limit
+  const isVideoDurationValid = (duration: string): boolean => {
+    // Parse the duration string (format could be MM:SS or H:MM:SS)
+    const parts = duration.split(':');
+    
+    if (parts.length === 2) {
+      // Format is MM:SS
+      const minutes = parseInt(parts[0]);
+      return minutes <= 30;
+    } else if (parts.length === 3) {
+      // Format is H:MM:SS
+      const hours = parseInt(parts[0]);
+      const minutes = parseInt(parts[1]);
+      return hours === 0 && minutes <= 30;
+    }
+    
+    // Default to valid if we can't parse
+    return true;
+  };
+
   // Handle extract transcript button click
   const handleExtractTranscript = async (url: string) => {
     setYoutubeUrl(url);
@@ -125,6 +147,13 @@ const Home = () => {
       
       const existingVideo = getVideoById(videoId);
       if (existingVideo) {
+        // Check duration for stored videos
+        if (!isVideoDurationValid(existingVideo.duration)) {
+          setLongVideoUrl(url);
+          setIsDurationAlertOpen(true);
+          return;
+        }
+        
         // Load from storage
         setVideoDetails({
           videoId: existingVideo.id,
@@ -144,7 +173,17 @@ const Home = () => {
           type: "info",
         });
       } else {
-        // Fetch new transcript
+        // For new videos, first get the video details to check duration
+        const videoDetails = await fetchYouTubeVideoDetails(videoId);
+        
+        // Check if the video is within the duration limit
+        if (!isVideoDurationValid(videoDetails.duration)) {
+          setLongVideoUrl(url);
+          setIsDurationAlertOpen(true);
+          return;
+        }
+        
+        // Fetch full transcript
         const result = await fetchYouTubeTranscript(url);
         
         // Ensure transcript is correctly typed
@@ -391,6 +430,43 @@ const Home = () => {
               className="bg-red-600 hover:bg-red-700"
             >
               Yes, clear all
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      
+      {/* Duration limit alert dialog */}
+      <AlertDialog open={isDurationAlertOpen} onOpenChange={setIsDurationAlertOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Video Duration Limit Exceeded</AlertDialogTitle>
+            <AlertDialogDescription>
+              <div className="space-y-4">
+                <p>
+                  We only support processing YouTube videos with a duration of 30 minutes or less.
+                </p>
+                <div className="bg-amber-50 border border-amber-200 p-3 rounded-md text-amber-800 text-sm">
+                  <p className="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 mt-0.5 flex-shrink-0">
+                      <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                      <line x1="12" x2="12" y1="9" y2="13"/>
+                      <line x1="12" x2="12.01" y1="17" y2="17"/>
+                    </svg>
+                    <span>
+                      Longer videos require more processing time and resources,
+                      and may result in less accurate summaries.
+                    </span>
+                  </p>
+                </div>
+                <p>
+                  Please try a shorter video, or consider using a specific timestamp URL to focus on a particular section of the video.
+                </p>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setIsDurationAlertOpen(false)}>
+              I understand
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
