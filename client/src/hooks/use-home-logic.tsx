@@ -11,6 +11,7 @@ import {
   getRecentVideos,
   clearAllVideos
 } from "@/lib/localStorage";
+import { MAX_VIDEO_DURATION_MINUTES } from "@/lib/config";
 import { TranscriptSegment } from "@/components/TranscriptSection";
 import { HistoryItem } from "@/components/HistoryModal";
 
@@ -84,12 +85,12 @@ export function useHomeLogic() {
     if (parts.length === 2) {
       // Format is MM:SS
       const minutes = parseInt(parts[0]);
-      return minutes <= 30;
+      return minutes <= MAX_VIDEO_DURATION_MINUTES;
     } else if (parts.length === 3) {
       // Format is H:MM:SS
       const hours = parseInt(parts[0]);
       const minutes = parseInt(parts[1]);
-      return hours === 0 && minutes <= 30;
+      return hours === 0 && minutes <= MAX_VIDEO_DURATION_MINUTES;
     }
     
     // Default to valid if we can't parse

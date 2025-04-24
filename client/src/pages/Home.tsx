@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useHomeLogic } from "@/hooks/use-home-logic";
+import { MAX_VIDEO_DURATION_MINUTES } from "@/lib/config";
 import { TranscriptSegment } from "@/components/TranscriptSection";
 import Header from "@/components/Header";
 import URLInputSection from "@/components/URLInputSection";
@@ -158,7 +159,7 @@ const Home = () => {
             <AlertDialogDescription>
               <div className="space-y-4">
                 <div className="mb-4">
-                  We only support processing YouTube videos with a duration of 30 minutes or less.
+                  We only support processing YouTube videos with a duration of {MAX_VIDEO_DURATION_MINUTES} minutes or less.
                 </div>
                 <div className="bg-amber-50 border border-amber-200 p-3 rounded-md text-amber-800 text-sm mb-4">
                   <div className="flex items-start">

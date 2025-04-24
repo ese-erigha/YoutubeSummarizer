@@ -2,6 +2,7 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { isValidYoutubeUrl } from "@/lib/youtube";
+import { MAX_VIDEO_DURATION_MINUTES } from "@/lib/config";
 
 interface URLInputSectionProps {
   onExtractTranscript: (url: string) => void;
@@ -70,7 +71,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading, inputUrl = "" 
           <path d="M12 16v.01"/>
           <path d="M12 8v4"/>
         </svg>
-        <span className="text-muted-foreground">Only videos with a duration of <strong className="text-foreground">30 minutes or less</strong> are supported.</span>
+        <span className="text-muted-foreground">Only videos with a duration of <strong className="text-foreground">{MAX_VIDEO_DURATION_MINUTES} minutes or less</strong> are supported.</span>
       </div>
       <div className="bg-background p-6 rounded-lg shadow-md border border-border">
         <div className="mb-4">
