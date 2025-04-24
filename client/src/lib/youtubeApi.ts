@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { TranscriptSegment } from '@shared/schema';
 import { extractVideoId, formatTimestamp } from './youtube';
-import { YoutubeTranscript } from 'youtube-transcript';
 
 // Make sure these keys are accessible for the frontend-only app
 const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
@@ -152,32 +151,26 @@ export async function fetchYouTubeTranscript(videoUrl: string): Promise<{
     // Get video details from YouTube API
     const videoDetails = await fetchYouTubeVideoDetails(videoId);
     
-    console.log('Fetching transcript with youtube-transcript package');
+    console.log('Fetching transcript from server API');
     
     try {
-      // Try to fetch the actual transcript using youtube-transcript package
-      const transcriptItems = await YoutubeTranscript.fetchTranscript(videoId);
+      // Try to fetch the actual transcript using our server API
+      const response = await axios.post('/api/transcript', { videoId });
       
-      if (transcriptItems && transcriptItems.length > 0) {
-        // Convert to our TranscriptSegment format
-        const transcript: TranscriptSegment[] = transcriptItems.map(item => ({
-          text: item.text,
-          timestamp: item.offset / 1000 // offset is in milliseconds, we want seconds
-        }));
-        
+      if (response.data && response.data.transcript && response.data.transcript.length > 0) {
         return {
           videoId,
           title: videoDetails.title,
           channelTitle: videoDetails.channelTitle,
           duration: videoDetails.duration,
-          transcript,
+          transcript: response.data.transcript,
           thumbnailUrl: videoDetails.thumbnailUrl,
         };
       } else {
-        throw new Error('No transcript available');
+        throw new Error('No transcript available from API');
       }
     } catch (transcriptError) {
-      console.warn('Failed to fetch transcript with youtube-transcript, falling back to generated transcript', 
+      console.warn('Failed to fetch transcript from server API, falling back to generated transcript', 
         transcriptError instanceof Error ? transcriptError.message : transcriptError);
       console.error('Transcript error details:', transcriptError);
       
