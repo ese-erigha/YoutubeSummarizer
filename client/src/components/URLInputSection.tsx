@@ -146,12 +146,12 @@ export const URLInputSection = ({ onExtractTranscript, isLoading, inputUrl = "" 
                       href="#" 
                       onClick={(e) => {
                         e.preventDefault();
-                        setUrl('https://www.youtube.com/watch?v=heh5XLwZVOY');
+                        setUrl('https://www.youtube.com/watch?v=EkPUOMeeQeY&ab_channel=DailyStoic');
                         setIsValid(true);
                       }}
                       className="text-primary hover:underline ml-1"
                     >
-                      Quantum Computing: Entanglement, Qubits, and Science Explained for Everyone
+                      12 (Stoic) Rules For Life
                     </a>
                   </span>
                 </p>
