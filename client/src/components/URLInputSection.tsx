@@ -146,12 +146,12 @@ export const URLInputSection = ({ onExtractTranscript, isLoading, inputUrl = "" 
                       href="#" 
                       onClick={(e) => {
                         e.preventDefault();
-                        setUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+                        setUrl('https://www.youtube.com/watch?v=heh5XLwZVOY');
                         setIsValid(true);
                       }}
                       className="text-primary hover:underline ml-1"
                     >
-                      Rick Astley - Never Gonna Give You Up
+                      Quantum Computing: Entanglement, Qubits, and Science Explained for Everyone
                     </a>
                   </span>
                 </p>
