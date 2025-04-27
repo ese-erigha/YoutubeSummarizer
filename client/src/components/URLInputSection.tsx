@@ -58,7 +58,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading, inputUrl = "" 
   };
 
   return (
-    <section className="mb-8" aria-labelledby="url-input-heading">
+    <section className="w-full" aria-labelledby="url-input-heading">
       <h2 id="url-input-heading" className="text-xl font-bold mb-2 text-foreground">
         Extract Video Transcript
       </h2>

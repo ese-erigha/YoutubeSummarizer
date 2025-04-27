@@ -70,42 +70,42 @@ const Home = () => {
     <div className="flex flex-col min-h-screen">
       <Header onOpenHistory={() => setIsHistoryModalOpen(true)} />
       
-      <main className="flex-grow w-full max-w-full px-4 sm:px-6 md:px-8 py-6">
-        <URLInputSection 
-          onExtractTranscript={handleExtractTranscript}
-          isLoading={isLoadingTranscript}
-          inputUrl={youtubeUrl}
-        />
+      <main className="flex flex-col w-full px-4 sm:px-6 md:px-8 py-6">
+        {/* 1. URL Input Section (Extract Video Transcript) */}
+        <div className="w-full mb-8">
+          <URLInputSection 
+            onExtractTranscript={handleExtractTranscript}
+            isLoading={isLoadingTranscript}
+            inputUrl={youtubeUrl}
+          />
+        </div>
         
-        {/* Full-width vertical stack layout */}
-        <div className="flex flex-col gap-8 w-full max-w-full">
-          {/* Transcript section - full width and always appears first */}
-          <div className="w-full max-w-full">
-            <TranscriptSection
-              videoUrl={youtubeUrl}
-              videoTitle={videoDetails?.title || ""}
-              channelTitle={videoDetails?.channelTitle || ""}
-              duration={videoDetails?.duration || ""}
-              transcript={videoDetails?.transcript || []}
-              isLoading={isLoadingTranscript}
-              error={videoError || null}
-              onDownloadTranscript={handleDownloadTranscript}
-            />
-          </div>
-          
-          {/* Summary section - full width and always appears below transcript */}
-          <div className="w-full max-w-full">
-            <SummarySection
-              transcript={getFullTranscript()}
-              videoTitle={videoDetails?.title || ""}
-              summary={summary}
-              isSummaryLoading={isLoadingSummary}
-              summaryError={summaryError}
-              onGenerateSummary={handleGenerateSummary}
-              onRegenerateSummary={handleRegenerateSummary}
-              hasTranscript={!!(videoDetails?.transcript && videoDetails.transcript.length > 0)}
-            />
-          </div>
+        {/* 2. Transcript Section */}
+        <div className="w-full mb-8">
+          <TranscriptSection
+            videoUrl={youtubeUrl}
+            videoTitle={videoDetails?.title || ""}
+            channelTitle={videoDetails?.channelTitle || ""}
+            duration={videoDetails?.duration || ""}
+            transcript={videoDetails?.transcript || []}
+            isLoading={isLoadingTranscript}
+            error={videoError || null}
+            onDownloadTranscript={handleDownloadTranscript}
+          />
+        </div>
+        
+        {/* 3. Summary Section */}
+        <div className="w-full">
+          <SummarySection
+            transcript={getFullTranscript()}
+            videoTitle={videoDetails?.title || ""}
+            summary={summary}
+            isSummaryLoading={isLoadingSummary}
+            summaryError={summaryError}
+            onGenerateSummary={handleGenerateSummary}
+            onRegenerateSummary={handleRegenerateSummary}
+            hasTranscript={!!(videoDetails?.transcript && videoDetails.transcript.length > 0)}
+          />
         </div>
       </main>
       
