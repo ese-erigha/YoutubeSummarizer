@@ -51,8 +51,8 @@ const TranscriptSection = ({
   };
 
   return (
-    <section aria-labelledby="transcript-heading" className="w-full block">
-      <div className="bg-background p-6 rounded-lg shadow-md border-2 border-primary/30 w-full flex flex-col">
+    <section aria-labelledby="transcript-heading" className="w-full">
+      <div className="bg-background p-6 rounded-lg shadow-md border border-border w-full flex flex-col">
         <div className="flex items-center justify-between mb-4">
           <h2 id="transcript-heading" className="text-xl font-bold text-foreground">
             Transcript

@@ -5,30 +5,9 @@
 /* Custom global styles */
 /* Make section headings more prominent */
 section h2 {
-  font-weight: 700 !important;
-  color: #111827 !important;
-  margin-bottom: 0.5rem !important;
-}
-
-/* Ensure clear separation between sections */
-.grid-cols-1 > div {
-  display: block !important;
-  width: 100% !important;
-  clear: both !important;
-  float: none !important;
-}
-
-/* Add visual separation for sections */
-main > div > *:nth-child(2) {
-  margin-top: 2.5rem !important;
-  margin-bottom: 2.5rem !important;
-  border-top: 1px solid #eaeaea !important;
-  padding-top: 2.5rem !important;
-}
-
-main > div > *:nth-child(3) {
-  border-top: 1px solid #eaeaea !important;
-  padding-top: 2.5rem !important;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
 }
 
 :root {
