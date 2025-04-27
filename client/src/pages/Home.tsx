@@ -69,6 +69,14 @@ const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header onOpenHistory={() => setIsHistoryModalOpen(true)} />
+      <div className="fixed right-4 top-20 z-50">
+        <a 
+          href="/simplified" 
+          className="bg-red-500 text-white px-4 py-2 rounded-md font-bold flex items-center shadow-lg"
+        >
+          View Simplified Layout
+        </a>
+      </div>
       
       <main className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 gap-y-10">
