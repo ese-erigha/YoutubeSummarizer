@@ -51,7 +51,7 @@ const TranscriptSection = ({
   };
 
   return (
-    <section className="lg:col-span-2" aria-labelledby="transcript-heading">
+    <section aria-labelledby="transcript-heading">
       <div className="bg-background p-6 rounded-lg shadow-md border border-border h-full flex flex-col">
         <div className="flex items-center justify-between mb-4">
           <h2 id="transcript-heading" className="text-xl font-bold text-foreground">
@@ -162,7 +162,7 @@ const TranscriptSection = ({
                 </div>
               </div>
             </div>
-            <div className="flex-grow overflow-y-auto bg-muted/30 p-3 sm:p-4 rounded-md font-content shadow-inner border border-border">
+            <div className="flex-grow overflow-y-auto bg-muted/30 p-3 sm:p-4 rounded-md font-content shadow-inner border border-border" style={{ maxHeight: "400px" }}>
               {displayedTranscript.map((segment, index) => (
                 <div className="mb-4 flex flex-col sm:flex-row border-b border-border/40 pb-3 last:border-0" key={index}>
                   <div className="mb-2 sm:mb-0 sm:mr-4 sm:w-24 flex-shrink-0">

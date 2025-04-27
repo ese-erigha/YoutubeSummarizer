@@ -247,7 +247,7 @@ const SummarySection = ({
 
         {/* Summary content */}
         {summary && (
-          <div className="flex-grow overflow-y-auto bg-muted/30 p-4 sm:p-6 rounded-md font-content shadow-inner border border-border">
+          <div className="flex-grow overflow-y-auto bg-muted/30 p-4 sm:p-6 rounded-md font-content shadow-inner border border-border" style={{ maxHeight: "500px" }}>
             <div className="prose prose-blue max-w-none">
               <div dangerouslySetInnerHTML={{ 
                 __html: formatSummary(summary)

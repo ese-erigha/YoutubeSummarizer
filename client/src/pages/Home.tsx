@@ -77,10 +77,10 @@ const Home = () => {
           inputUrl={youtubeUrl}
         />
         
-        {/* Responsive grid layout that works well on all screen sizes */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {/* Transcript section takes full width on small screens, 1/2 width on medium screens, 1/3 width on large screens */}
-          <div className="order-1">
+        {/* Stack layout for transcript and summary */}
+        <div className="flex flex-col gap-6">
+          {/* Transcript section - always appears first */}
+          <div className="w-full">
             <TranscriptSection
               videoUrl={youtubeUrl}
               videoTitle={videoDetails?.title || ""}
@@ -93,8 +93,8 @@ const Home = () => {
             />
           </div>
           
-          {/* Summary section takes full width on small screens, 1/2 width on medium screens, 2/3 width on large screens */}
-          <div className="md:col-span-1 lg:col-span-2 order-2">
+          {/* Summary section - always appears below transcript */}
+          <div className="w-full">
             <SummarySection
               transcript={getFullTranscript()}
               videoTitle={videoDetails?.title || ""}
