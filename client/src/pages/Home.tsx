@@ -72,16 +72,16 @@ const Home = () => {
       
       <main className="flex flex-col w-full px-4 sm:px-6 md:px-8 py-6">
         {/* 1. URL Input Section (Extract Video Transcript) */}
-        <div className="w-full mb-8">
+        <section className="w-full mb-10 order-1">
           <URLInputSection 
             onExtractTranscript={handleExtractTranscript}
             isLoading={isLoadingTranscript}
             inputUrl={youtubeUrl}
           />
-        </div>
+        </section>
         
-        {/* 2. Transcript Section */}
-        <div className="w-full mb-8">
+        {/* 2. Transcript Section - Force to be above Summary */}
+        <section className="w-full mb-10 order-2" id="transcript-container">
           <TranscriptSection
             videoUrl={youtubeUrl}
             videoTitle={videoDetails?.title || ""}
@@ -92,10 +92,10 @@ const Home = () => {
             error={videoError || null}
             onDownloadTranscript={handleDownloadTranscript}
           />
-        </div>
+        </section>
         
-        {/* 3. Summary Section */}
-        <div className="w-full">
+        {/* 3. Summary Section - Always after Transcript */}
+        <section className="w-full order-3" id="summary-container">
           <SummarySection
             transcript={getFullTranscript()}
             videoTitle={videoDetails?.title || ""}
@@ -106,7 +106,7 @@ const Home = () => {
             onRegenerateSummary={handleRegenerateSummary}
             hasTranscript={!!(videoDetails?.transcript && videoDetails.transcript.length > 0)}
           />
-        </div>
+        </section>
       </main>
       
       <HistoryModal
