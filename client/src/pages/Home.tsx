@@ -79,37 +79,53 @@ const Home = () => {
       </div>
       
       <main className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 gap-y-10">
+        {/* Using inline styles to guarantee vertical stacking */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+          
           {/* 1. URL Input Section (Extract Video Transcript) */}
-          <URLInputSection 
-            onExtractTranscript={handleExtractTranscript}
-            isLoading={isLoadingTranscript}
-            inputUrl={youtubeUrl}
-          />
+          <div style={{ width: '100%', display: 'block' }}>
+            <URLInputSection 
+              onExtractTranscript={handleExtractTranscript}
+              isLoading={isLoadingTranscript}
+              inputUrl={youtubeUrl}
+            />
+          </div>
           
           {/* 2. Transcript Section - ALWAYS shown before Summary */}
-          <TranscriptSection
-            videoUrl={youtubeUrl}
-            videoTitle={videoDetails?.title || ""}
-            channelTitle={videoDetails?.channelTitle || ""}
-            duration={videoDetails?.duration || ""}
-            transcript={videoDetails?.transcript || []}
-            isLoading={isLoadingTranscript}
-            error={videoError || null}
-            onDownloadTranscript={handleDownloadTranscript}
-          />
+          <div style={{ 
+            width: '100%', 
+            display: 'block',
+            boxSizing: 'border-box'
+          }}>
+            <TranscriptSection
+              videoUrl={youtubeUrl}
+              videoTitle={videoDetails?.title || ""}
+              channelTitle={videoDetails?.channelTitle || ""}
+              duration={videoDetails?.duration || ""}
+              transcript={videoDetails?.transcript || []}
+              isLoading={isLoadingTranscript}
+              error={videoError || null}
+              onDownloadTranscript={handleDownloadTranscript}
+            />
+          </div>
           
           {/* 3. Summary Section - ALWAYS shown after Transcript */}
-          <SummarySection
-            transcript={getFullTranscript()}
-            videoTitle={videoDetails?.title || ""}
-            summary={summary}
-            isSummaryLoading={isLoadingSummary}
-            summaryError={summaryError}
-            onGenerateSummary={handleGenerateSummary}
-            onRegenerateSummary={handleRegenerateSummary}
-            hasTranscript={!!(videoDetails?.transcript && videoDetails.transcript.length > 0)}
-          />
+          <div style={{ 
+            width: '100%',
+            display: 'block',
+            boxSizing: 'border-box'
+          }}>
+            <SummarySection
+              transcript={getFullTranscript()}
+              videoTitle={videoDetails?.title || ""}
+              summary={summary}
+              isSummaryLoading={isLoadingSummary}
+              summaryError={summaryError}
+              onGenerateSummary={handleGenerateSummary}
+              onRegenerateSummary={handleRegenerateSummary}
+              hasTranscript={!!(videoDetails?.transcript && videoDetails.transcript.length > 0)}
+            />
+          </div>
         </div>
       </main>
       
