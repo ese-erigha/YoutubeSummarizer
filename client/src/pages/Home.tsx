@@ -70,17 +70,17 @@ const Home = () => {
     <div className="flex flex-col min-h-screen">
       <Header onOpenHistory={() => setIsHistoryModalOpen(true)} />
       
-      <main className="flex-grow container mx-auto px-4 sm:px-6 md:px-8 py-6">
+      <main className="flex-grow w-full max-w-full px-4 sm:px-6 md:px-8 py-6">
         <URLInputSection 
           onExtractTranscript={handleExtractTranscript}
           isLoading={isLoadingTranscript}
           inputUrl={youtubeUrl}
         />
         
-        {/* Stack layout for transcript and summary */}
-        <div className="flex flex-col gap-6">
-          {/* Transcript section - always appears first */}
-          <div className="w-full">
+        {/* Full-width vertical stack layout */}
+        <div className="flex flex-col gap-8 w-full max-w-full">
+          {/* Transcript section - full width and always appears first */}
+          <div className="w-full max-w-full">
             <TranscriptSection
               videoUrl={youtubeUrl}
               videoTitle={videoDetails?.title || ""}
@@ -93,8 +93,8 @@ const Home = () => {
             />
           </div>
           
-          {/* Summary section - always appears below transcript */}
-          <div className="w-full">
+          {/* Summary section - full width and always appears below transcript */}
+          <div className="w-full max-w-full">
             <SummarySection
               transcript={getFullTranscript()}
               videoTitle={videoDetails?.title || ""}
