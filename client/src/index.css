@@ -3,27 +3,17 @@
 @tailwind utilities;
 
 /* Custom global styles */
-/* Ensure sections are stacked correctly */
-#transcript-container {
-  display: block !important;
-  width: 100% !important;
-  margin-bottom: 2.5rem !important; /* 40px */
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-#summary-container {
-  display: block !important;
-  width: 100% !important;
-  position: relative !important;
-  z-index: 0 !important;
-}
-
 /* Make section headings more prominent */
 section h2 {
   font-weight: 700 !important;
   color: #111827 !important;
   margin-bottom: 0.5rem !important;
+}
+
+/* Ensure clear separation between transcript and summary */
+.grid-cols-1 > div {
+  display: block;
+  width: 100%;
 }
 
 :root {
