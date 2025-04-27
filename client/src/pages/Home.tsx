@@ -70,7 +70,7 @@ const Home = () => {
     <div className="flex flex-col min-h-screen">
       <Header onOpenHistory={() => setIsHistoryModalOpen(true)} />
       
-      <main className="flex-grow container mx-auto px-4 py-6">
+      <main className="flex-grow container mx-auto px-4 sm:px-6 md:px-8 py-6">
         <URLInputSection 
           onExtractTranscript={handleExtractTranscript}
           isLoading={isLoadingTranscript}
