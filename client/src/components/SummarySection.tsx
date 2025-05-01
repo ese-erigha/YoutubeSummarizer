@@ -114,7 +114,7 @@ const SummarySection = ({
             size="sm"
             onClick={onRegenerateSummary}
             disabled={!summary || isSummaryLoading}
-            className="text-primary hover:text-primary-foreground hover:bg-primary border-primary text-sm px-3 py-1 h-auto flex items-center"
+            className="text-foreground hover:text-accent-foreground hover:bg-accent/50 border-accent/50 text-sm px-3 py-1 h-auto flex items-center"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-refresh-cw mr-1">
               <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
@@ -170,7 +170,7 @@ const SummarySection = ({
             <div>
               <Button
                 onClick={onGenerateSummary}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 h-auto flex items-center rounded-md shadow-sm"
+                className="bg-accent/80 hover:bg-accent text-accent-foreground px-6 py-3 h-auto flex items-center rounded-md shadow-sm"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
                   <path d="m5 16 3 3 8.5-8.5-3-3L5 16"/>
@@ -189,8 +189,8 @@ const SummarySection = ({
         {/* Loading state */}
         {isSummaryLoading && (
           <div className="flex-grow flex flex-col items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mb-4"></div>
-            <p className="text-primary font-medium mb-2">Generating summary with AI...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-foreground mb-4"></div>
+            <p className="text-foreground font-medium mb-2">Generating summary with AI...</p>
             <p className="text-sm text-muted-foreground text-center max-w-md">
               Our AI model is analyzing the transcript to create a concise summary.
               This typically takes 5-10 seconds depending on the length of the transcript.
@@ -248,7 +248,7 @@ const SummarySection = ({
         {/* Summary content */}
         {summary && (
           <div className="flex-grow overflow-y-auto bg-muted/30 p-4 sm:p-6 rounded-md font-content shadow-inner border border-border" style={{ maxHeight: "500px" }}>
-            <div className="prose prose-blue max-w-none">
+            <div className="prose max-w-none">
               <div dangerouslySetInnerHTML={{ 
                 __html: formatSummary(summary)
               }} />

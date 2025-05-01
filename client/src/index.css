@@ -77,6 +77,11 @@ section h2 {
   @apply mb-4;
 }
 
+/* Remove blue color from links and make them white with underline */
+.prose a {
+  @apply text-foreground underline decoration-primary/50 hover:decoration-primary;
+}
+
 /* Basic UI elements */
 button, 
 .btn {

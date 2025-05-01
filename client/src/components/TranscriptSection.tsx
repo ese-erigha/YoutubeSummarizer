@@ -62,7 +62,7 @@ const TranscriptSection = ({
             size="sm"
             onClick={onDownloadTranscript}
             disabled={!hasTranscript}
-            className="text-primary hover:text-primary-foreground hover:bg-primary border-primary text-sm px-3 py-1 h-auto flex items-center"
+            className="text-foreground hover:text-accent-foreground hover:bg-accent/50 border-accent/50 text-sm px-3 py-1 h-auto flex items-center"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download mr-1">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -105,17 +105,17 @@ const TranscriptSection = ({
         {/* Loading state */}
         {isLoading && (
           <div className="flex-grow flex flex-col items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mb-4"></div>
-            <p className="text-primary font-medium mb-2">Extracting transcript...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-foreground mb-4"></div>
+            <p className="text-foreground font-medium mb-2">Extracting transcript...</p>
             <p className="text-sm text-muted-foreground text-center max-w-md">
               We're fetching the video transcript from YouTube. This may take a few moments
               depending on the video length. If captions aren't available, we'll create a
               transcript based on the video description.
             </p>
             <div className="flex items-center justify-center mt-6 space-x-1">
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: "0ms" }}></div>
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: "300ms" }}></div>
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: "600ms" }}></div>
+              <div className="w-2 h-2 bg-foreground rounded-full animate-pulse" style={{ animationDelay: "0ms" }}></div>
+              <div className="w-2 h-2 bg-foreground rounded-full animate-pulse" style={{ animationDelay: "300ms" }}></div>
+              <div className="w-2 h-2 bg-foreground rounded-full animate-pulse" style={{ animationDelay: "600ms" }}></div>
             </div>
           </div>
         )}
@@ -168,7 +168,7 @@ const TranscriptSection = ({
                   <div className="mb-2 sm:mb-0 sm:mr-4 sm:w-24 flex-shrink-0">
                     <button
                       onClick={() => handleTimestampClick(segment.timestamp)}
-                      className="text-primary hover:text-primary-foreground font-medium inline-flex items-center bg-secondary hover:bg-secondary/80 transition-colors rounded px-3 py-2 sm:py-1.5 text-sm w-full justify-center sm:justify-start shadow-sm hover:shadow"
+                      className="text-foreground hover:text-accent-foreground font-medium inline-flex items-center bg-accent/30 hover:bg-accent/50 transition-colors rounded px-3 py-2 sm:py-1.5 text-sm w-full justify-center sm:justify-start shadow-sm hover:shadow"
                       aria-label={`Jump to ${formatTimestamp(segment.timestamp)} in video`}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5 flex-shrink-0">
@@ -191,7 +191,7 @@ const TranscriptSection = ({
                     variant="outline"
                     size="sm"
                     onClick={toggleShowAll}
-                    className="flex items-center text-primary border-primary hover:bg-primary/10 gap-1"
+                    className="flex items-center text-foreground border-border hover:bg-accent/30 gap-1"
                   >
                     {showAllSegments ? (
                       <>
