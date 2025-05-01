@@ -8,10 +8,10 @@ interface HeaderProps {
 export const Header = ({ onOpenHistory }: HeaderProps) => {
   useEffect(() => {
     const root = window.document.documentElement;
-    // Always make sure dark class is removed and light is added
-    root.classList.remove('dark');
-    root.classList.add('light');
-    localStorage.setItem('theme', 'light');
+    // Ensure dark mode is applied consistently
+    root.classList.remove('light');
+    root.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
   }, []);
 
   return (

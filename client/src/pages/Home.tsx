@@ -173,7 +173,7 @@ const Home = () => {
                 <div className="mb-4">
                   We only support processing YouTube videos with a duration of {MAX_VIDEO_DURATION_MINUTES} minutes or less.
                 </div>
-                <div className="bg-amber-50 border border-amber-200 p-3 rounded-md text-amber-800 text-sm mb-4">
+                <div className="bg-amber-950/30 border border-amber-800/40 p-3 rounded-md text-amber-300 text-sm mb-4">
                   <div className="flex items-start">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 mt-0.5 flex-shrink-0">
                       <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
