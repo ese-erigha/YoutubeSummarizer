@@ -124,7 +124,7 @@ const HistoryModal = ({
                         </p>
                         <Button
                           variant="link"
-                          className="text-primary hover:text-primary-700 text-sm font-medium p-0 h-auto"
+                          className="text-foreground hover:text-accent-foreground text-sm font-medium p-0 h-auto"
                           onClick={() => onLoadHistory(item.id)}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">

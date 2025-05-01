@@ -66,7 +66,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading, inputUrl = "" 
         Enter a YouTube video URL below to extract its transcript and generate an AI-powered summary.
       </p>
       <div className="mb-4 text-xs flex items-center bg-accent/50 p-2 rounded-md border border-border">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5 flex-shrink-0 text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5 flex-shrink-0 text-foreground">
           <circle cx="12" cy="12" r="10"/>
           <path d="M12 16v.01"/>
           <path d="M12 8v4"/>
@@ -110,7 +110,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading, inputUrl = "" 
             <Button
               onClick={handleSubmit}
               disabled={isLoading || url.trim().length === 0}
-              className="flex items-center justify-center min-w-max h-auto py-2.5 sm:py-2 px-4 bg-primary hover:bg-primary-600 transition-colors shadow-md"
+              className="flex items-center justify-center min-w-max h-auto py-2.5 sm:py-2 px-4 bg-accent/80 hover:bg-accent text-accent-foreground transition-colors shadow-md"
               aria-label="Extract transcript"
             >
               {isLoading ? (
@@ -136,7 +136,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading, inputUrl = "" 
               {/* Standard Tailwind hint box */}
               <div className="p-3 bg-accent rounded-md text-accent-foreground border border-accent relative">
                 <p className="flex items-start">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5 mt-0.5 flex-shrink-0 text-primary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5 mt-0.5 flex-shrink-0 text-accent-foreground">
                     <circle cx="12" cy="12" r="10"/>
                     <path d="M12 16v.01"/>
                     <path d="M12 8v4"/>
@@ -149,7 +149,7 @@ export const URLInputSection = ({ onExtractTranscript, isLoading, inputUrl = "" 
                         setUrl('https://www.youtube.com/watch?v=EkPUOMeeQeY&ab_channel=DailyStoic');
                         setIsValid(true);
                       }}
-                      className="text-primary hover:underline ml-1"
+                      className="text-foreground hover:text-accent-foreground hover:underline ml-1"
                     >
                       12 (Stoic) Rules For Life
                     </a>

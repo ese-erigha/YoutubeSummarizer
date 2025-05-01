@@ -5,7 +5,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <div className="flex items-center justify-center md:justify-start">
-              <span className="text-primary mr-2">
+              <span className="text-foreground mr-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M7 13h4"/>
                   <path d="M15 13h2"/>
